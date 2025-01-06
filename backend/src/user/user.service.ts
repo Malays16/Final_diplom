@@ -3,14 +3,22 @@ import { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { ID, IUserService, SearchUserParams } from './interfaces/user';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService implements IUserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
+  private async hashPass(pass: string): Promise<string> {
+    const salt = await bcrypt.genSalt();
+    return bcrypt.hash(pass, salt);
+  }
+
   async create(data: Partial<User>): Promise<UserDocument> {
     const existUser = await this.findByEmail(data.email);
     if (existUser) throw new BadRequestException('User with this email exist');
+
+    data.passwordHash = await this.hashPass(data.passwordHash);
 
     const user = new this.userModel(data);
     return user.save();

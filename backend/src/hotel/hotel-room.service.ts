@@ -6,7 +6,7 @@ import { ID, IHotelRoomService, SearchRoomsParams } from './interfaces/hotel-roo
 
 @Injectable()
 export class HotelRoomService implements IHotelRoomService {
-  constructor(@InjectModel('HotelRoom') private readonly hotelRoomModel: Model<HotelRoomDocument>) {}
+  constructor(@InjectModel(HotelRoom.name) private readonly hotelRoomModel: Model<HotelRoomDocument>) {}
 
   async create(data: Partial<HotelRoom>): Promise<HotelRoomDocument> {
     data.createdAt = new Date();

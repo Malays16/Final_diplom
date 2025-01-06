@@ -1,10 +1,4 @@
-export interface User {
-  email: string;
-  passwordHash: string;
-  name: string;
-  contactPhone?: string;
-  role: UserRole;
-}
+import { User } from '../schemas/user.schema';
 
 export interface SearchUserParams {
   limit: number;
@@ -20,7 +14,7 @@ export interface IUserService {
   create(data: Partial<User>): Promise<User>;
   findById(id: ID): Promise<User>;
   findByEmail(email: string): Promise<User>;
-  findAll(params: SearchUserParams): Promise<User[]>
+  findAll(params: SearchUserParams): Promise<User[]>;
 }
 
 export enum UserRole {
