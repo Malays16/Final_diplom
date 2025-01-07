@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { HotelModule } from './hotel/hotel.module';
 import { ReservationModule } from './reservation/reservation.module';
+import { SupportChatModule } from './support-chat/support-chat.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { ReservationModule } from './reservation/reservation.module';
     MongooseModule.forRoot(process.env.MONGO_CONNECTION),
     UserModule,
     HotelModule,
-    ReservationModule
+    ReservationModule,
+    SupportChatModule,
   ],
   // controllers: [AppController],
   // providers: [AppService],
