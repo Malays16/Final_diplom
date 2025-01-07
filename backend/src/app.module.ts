@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { HotelModule } from './hotel/hotel.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { SupportChatModule } from './support-chat/support-chat.module';
+import { HotelRoomModule } from './api/hotel-rooms/hotel-room.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { SupportChatModule } from './support-chat/support-chat.module';
     HotelModule,
     ReservationModule,
     SupportChatModule,
+    HotelRoomModule,
   ],
   // controllers: [AppController],
   // providers: [AppService],
