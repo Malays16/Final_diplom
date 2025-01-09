@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { SearchHotelRoomInterface } from './interfaces/hotel-room';
+import { SearchHotelRoomInterface } from './interfaces/hotel-room-api';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { HotelRoom, HotelRoomDocument } from 'src/hotel/schemas/hotel-room.schema';
@@ -8,7 +8,7 @@ import { Reservation, ReservationDocument } from 'src/reservation/schemas/reserv
 import { ID } from 'src/hotel/interfaces/hotel-room';
 
 @Injectable()
-export class HotelRoomService {
+export class HotelRoomApiService {
   constructor(
     @InjectModel(HotelRoom.name) private readonly hotelRoomModel: Model<HotelRoomDocument>,
     @InjectModel(Reservation.name) private readonly reservationModel: Model<ReservationDocument>

@@ -1,14 +1,13 @@
 import { Module } from '@nestjs/common';
-// import { AppController } from './app.controller';
-// import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { HotelModule } from './hotel/hotel.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { SupportChatModule } from './support-chat/support-chat.module';
-import { HotelRoomModule } from './api/hotel-rooms/hotel-room.module';
+import { HotelRoomApiModule } from './api/hotel-room-api/hotel-room-api.module';
 import { AuthModule } from './auth/auth.module';
+import { HotelApiModule } from './api/hotel-api/hotel-api.module';
 
 @Module({
   imports: [
@@ -18,10 +17,9 @@ import { AuthModule } from './auth/auth.module';
     HotelModule,
     ReservationModule,
     SupportChatModule,
-    HotelRoomModule,
+    HotelRoomApiModule,
     AuthModule,
-  ],
-  // controllers: [AppController],
-  // providers: [AppService],
+    HotelApiModule,
+  ]
 })
 export class AppModule {}

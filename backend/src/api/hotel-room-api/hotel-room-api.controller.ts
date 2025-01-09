@@ -1,11 +1,11 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
-import { HotelRoomService } from './hotel-room.service';
-import { SearchHotelRoomInterface } from './interfaces/hotel-room';
+import { HotelRoomApiService } from './hotel-room-api.service';
+import { SearchHotelRoomInterface } from './interfaces/hotel-room-api';
 import { ID } from 'src/hotel/interfaces/hotel-room';
 
 @Controller('api/common')
-export class HotelRoomController {
-  constructor(private readonly hotelRoomService: HotelRoomService) {}
+export class HotelRoomApiController {
+  constructor(private readonly hotelRoomApiService: HotelRoomApiService) {}
 
   @Get('hotel-rooms')
   async getHotelRooms(
@@ -18,7 +18,7 @@ export class HotelRoomController {
     const checkInDate = new Date(checkIn);
     const checkOutDate = new Date(checkOut);
     try {
-      const rooms = await this.hotelRoomService.searchHotelRooms(limit, offset, hotel, checkInDate, checkOutDate);
+      const rooms = await this.hotelRoomApiService.searchHotelRooms(limit, offset, hotel, checkInDate, checkOutDate);
       return rooms;
     } catch (error) {
       throw new Error(error.message);
@@ -28,7 +28,7 @@ export class HotelRoomController {
   @Get('hotel-rooms/:id')
   async getRoomInfo(@Param('id') id: ID): Promise<SearchHotelRoomInterface> {
     try {
-      const room = await this.hotelRoomService.getRoomInfo(id);
+      const room = await this.hotelRoomApiService.getRoomInfo(id);
       return room;
     } catch (error) {
       throw new Error(error.message);

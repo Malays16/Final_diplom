@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { HotelRoomController } from './hotel-room.controller';
-import { HotelRoomService } from './hotel-room.service';
+import { HotelRoomApiController } from './hotel-room-api.controller';
+import { HotelRoomApiService } from './hotel-room-api.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { HotelRoom, HotelRoomSchema } from 'src/hotel/schemas/hotel-room.schema';
 import { Reservation, ReservationSchema } from 'src/reservation/schemas/reservation.schema';
@@ -12,8 +12,8 @@ import { Reservation, ReservationSchema } from 'src/reservation/schemas/reservat
       { name: Reservation.name, schema: ReservationSchema }
     ]),
   ],
-  controllers: [HotelRoomController],
-  providers: [HotelRoomService],
-  exports: [HotelRoomService]
+  controllers: [HotelRoomApiController],
+  providers: [HotelRoomApiService],
+  exports: [HotelRoomApiService]
 })
-export class HotelRoomModule {}
+export class HotelRoomApiModule {}
