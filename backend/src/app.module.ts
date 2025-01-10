@@ -6,7 +6,7 @@ import { HotelModule } from './hotel/hotel.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { SupportChatModule } from './support-chat/support-chat.module';
 import { HotelRoomApiModule } from './api/hotel-room-api/hotel-room-api.module';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './api/auth/auth.module';
 import { HotelApiModule } from './api/hotel-api/hotel-api.module';
 
 @Module({

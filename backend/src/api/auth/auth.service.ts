@@ -1,9 +1,10 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcrypt';
 import { UserDocument } from 'src/user/schemas/user.schema';
 import { JwtService } from '@nestjs/jwt';
-import { LoginResponse, PayloadToken } from './interfaces/auth';
+import { LoginResponse, PayloadToken, RegisterDto } from './interfaces/auth';
+import { UserRole } from 'src/user/interfaces/user';
 
 @Injectable()
 export class AuthService {
@@ -32,9 +33,29 @@ export class AuthService {
   }
 
   async login(user: UserDocument): Promise<LoginResponse> {
-    const { id, email } = user;
+    const { id, email, name, contactPhone } = user;
     const token = this.createToken({ id, email });
-    return { id, email, access_token: token };
+    return { email, name, contactPhone, access_token: token };
+  }
+
+  async register(registerDto: RegisterDto): Promise<UserDocument> {
+    const existUser = await this.userService.findByEmail(registerDto.email);
+    if (existUser) throw new BadRequestException('User with this email exist');
+
+    try {
+      const salt = await bcrypt.genSalt();
+      const hashPass = await bcrypt.hash(registerDto.password, salt);
+      return await this.userService.create({
+        email: registerDto.email,
+        passwordHash: hashPass,
+        name: registerDto.name,
+        contactPhone: registerDto.contactPhone,
+        role: UserRole.CLIENT
+      });
+    } catch (error) {
+      console.error('Error user register', error);
+      throw new Error('Registration failed');
+    }
   }
 
   private createToken(payload: PayloadToken) {
