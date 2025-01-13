@@ -5,6 +5,7 @@ import { UserDocument } from 'src/user/schemas/user.schema';
 import { Response, Request } from 'express';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RegisterResponse } from './interfaces/auth';
+import { NotAuthGuard } from './guards/not-auth-guard';
 
 type ReqUser = Request & { user: UserDocument };
 
@@ -29,6 +30,7 @@ export class AuthController {
     res.end();
   }
 
+  @UseGuards(NotAuthGuard)
   @HttpCode(HttpStatus.CREATED)
   @Post('client/register')
   async register(@Req() req: Request): Promise<RegisterResponse> {

@@ -43,11 +43,9 @@ export class AuthService {
     if (existUser) throw new BadRequestException('User with this email exist');
 
     try {
-      const salt = await bcrypt.genSalt();
-      const hashPass = await bcrypt.hash(registerDto.password, salt);
       return await this.userService.create({
         email: registerDto.email,
-        passwordHash: hashPass,
+        passwordHash: registerDto.password,
         name: registerDto.name,
         contactPhone: registerDto.contactPhone,
         role: UserRole.CLIENT
