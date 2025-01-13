@@ -1,10 +1,11 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { HotelService } from 'src/hotel/hotel.service';
 import { CreateHotelDto, HotelDtoResponse } from './interfaces/hotel-api';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { UserRole } from 'src/user/interfaces/user';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { ID, UpdateHotelParams } from 'src/hotel/interfaces/hotel';
 
 @Controller('api/admin')
 export class HotelApiController {
@@ -39,5 +40,18 @@ export class HotelApiController {
         description: hotel.description
       };
     });
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
+  @HttpCode(HttpStatus.OK)
+  @Put('hotels/:id')
+  async updateHotel(@Param('id') id: ID, @Body() updateHotelDto: UpdateHotelParams): Promise<HotelDtoResponse> {
+    const updatedHotel = await this.hotelService.update(id, updateHotelDto);
+    return {
+      id: updatedHotel.id,
+      title: updatedHotel.title,
+      description: updatedHotel.description
+    };
   }
 }

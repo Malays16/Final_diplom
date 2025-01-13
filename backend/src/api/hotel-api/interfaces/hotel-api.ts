@@ -1,6 +1,6 @@
 export interface CreateHotelDto {
   title: string;
-  description: string;
+  description?: string;
 }
 
 export interface HotelDtoResponse extends CreateHotelDto {

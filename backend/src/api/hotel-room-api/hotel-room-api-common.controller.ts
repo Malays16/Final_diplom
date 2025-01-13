@@ -4,7 +4,7 @@ import { SearchHotelRoomInterface } from './interfaces/hotel-room-api';
 import { ID } from 'src/hotel/interfaces/hotel-room';
 
 @Controller('api/common')
-export class HotelRoomApiController {
+export class HotelRoomApiCommonController {
   constructor(private readonly hotelRoomApiService: HotelRoomApiService) {}
 
   @Get('hotel-rooms')
