@@ -1,3 +1,6 @@
+import { UserDocument } from "src/user/schemas/user.schema";
+import { Request } from 'express';
+
 export interface PayloadToken {
   id: string;
   email: string;
@@ -18,3 +21,5 @@ export interface RegisterDto {
 }
 
 export type RegisterResponse = Omit<RegisterDto, 'password' | 'contactPhone'> & { id: string };
+
+export type ReqUser = Request & { user: UserDocument };

@@ -1,13 +1,10 @@
 import { Controller, HttpCode, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { UserDocument } from 'src/user/schemas/user.schema';
 import { Response, Request } from 'express';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { RegisterResponse } from './interfaces/auth';
+import { RegisterResponse, ReqUser } from './interfaces/auth';
 import { NotAuthGuard } from './guards/not-auth.guard';
-
-type ReqUser = Request & { user: UserDocument };
 
 @Controller('api')
 export class AuthController {

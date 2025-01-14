@@ -1,4 +1,5 @@
-import { Reservation } from '../schemas/reservation.schema';
+import { ReservationResponse } from 'src/api/reservation-api/interfaces/reservation-api';
+import { ReservationDocument } from '../schemas/reservation.schema';
 
 export type ID = string;
 
@@ -12,12 +13,13 @@ export interface ReservationDto {
 
 export interface ReservationSearchOptions {
   userId: ID;
-  dateStart: Date;
-  dateEnd: Date;
+  dateStart?: Date;
+  dateEnd?: Date;
 }
 
 export interface IReservation {
-  addReservation(data: ReservationDto): Promise<Reservation>;
+  addReservation(data: ReservationDto): Promise<ReservationResponse>;
   removeReservation(id: ID): Promise<void>;
-  getReservations(filter: ReservationSearchOptions): Promise<Reservation[]>;
+  getReservations(filter: ReservationSearchOptions): Promise<ReservationResponse[]>;
+  getReservationById(id: ID): Promise<ReservationDocument>;
 }

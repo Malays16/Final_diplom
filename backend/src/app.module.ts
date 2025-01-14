@@ -8,6 +8,7 @@ import { SupportChatModule } from './support-chat/support-chat.module';
 import { HotelRoomApiModule } from './api/hotel-room-api/hotel-room-api.module';
 import { AuthModule } from './api/auth/auth.module';
 import { HotelApiModule } from './api/hotel-api/hotel-api.module';
+import { ReservationApiModule } from './api/reservation-api/reservation-api.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { HotelApiModule } from './api/hotel-api/hotel-api.module';
     HotelRoomApiModule,
     AuthModule,
     HotelApiModule,
+    ReservationApiModule,
   ]
 })
 export class AppModule {}
