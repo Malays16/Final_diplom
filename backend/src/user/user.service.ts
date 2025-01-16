@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { ID, IUserService, SearchUserParams } from './interfaces/user';
+import { ID, IUserService, SearchUserParams, UserResponse } from './interfaces/user';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -32,12 +32,20 @@ export class UserService implements IUserService {
     return this.userModel.findOne({ email }).exec();
   }
 
-  async findAll(params: SearchUserParams): Promise<UserDocument[]> {
+  async findAll(params: SearchUserParams): Promise<UserResponse[]> {
     const query = {
       ...(params.email && { email: { $regex: params.email, $options: 'i' } }),
       ...(params.name && { name: { $regex: params.name, $options: 'i' } }),
       ...(params.contactPhone && { contactPhone: { $regex: params.contactPhone, $options: 'i' } }),
     }
-    return this.userModel.find(query).skip(params.offset).limit(params.limit).exec();
+    const users = await this.userModel.find(query).skip(params.offset).limit(params.limit).exec();
+    return users.map(user => {
+      return {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        contactPhone: user.contactPhone
+      };
+    });
   }
 }

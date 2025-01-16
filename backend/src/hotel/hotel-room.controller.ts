@@ -3,7 +3,7 @@ import { HotelRoomService } from './hotel-room.service';
 import { ID, SearchRoomsParams } from './interfaces/hotel-room';
 import { HotelRoom, HotelRoomDocument } from './schemas/hotel-room.schema';
 
-@Controller('hotel-room')
+@Controller('hotel-rooms')
 export class HotelRoomController {
   constructor(private readonly hotelRoomService: HotelRoomService) {}
 

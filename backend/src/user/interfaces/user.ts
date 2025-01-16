@@ -14,7 +14,15 @@ export interface IUserService {
   create(data: Partial<User>): Promise<User>;
   findById(id: ID): Promise<User>;
   findByEmail(email: string): Promise<User>;
-  findAll(params: SearchUserParams): Promise<User[]>;
+  findAll(params: SearchUserParams): Promise<UserResponse[]>;
+}
+
+export interface UserResponse {
+  id: ID;
+  email: string;
+  name: string;
+  contactPhone: string;
+  role?: UserRole;
 }
 
 export enum UserRole {

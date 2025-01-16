@@ -5,11 +5,6 @@ export interface SearchHotelRoomInterface {
   description: string;
   images: string[];
   hotel: HotelDtoResponse;
-  // hotel: {
-  //   id: string;
-  //   title: string;
-  //   description?: string;
-  // };
 }
 
 export interface HotelRoomResponse extends SearchHotelRoomInterface {

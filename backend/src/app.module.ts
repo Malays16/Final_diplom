@@ -9,6 +9,7 @@ import { HotelRoomApiModule } from './api/hotel-room-api/hotel-room-api.module';
 import { AuthModule } from './api/auth/auth.module';
 import { HotelApiModule } from './api/hotel-api/hotel-api.module';
 import { ReservationApiModule } from './api/reservation-api/reservation-api.module';
+import { UserApiModule } from './api/user-api/user-api.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ReservationApiModule } from './api/reservation-api/reservation-api.modu
     AuthModule,
     HotelApiModule,
     ReservationApiModule,
+    UserApiModule,
   ]
 })
 export class AppModule {}
