@@ -22,6 +22,7 @@ export class ReservationApiClientController {
   @Post('reservations')
   async createReservation(@Body() data: CreateReservationDto, @Req() request: ReqUser): Promise<ReservationResponse> {
     const hotelRoom = await this.hotelRoomService.findById(data.hotelRoom);
+    if (!hotelRoom) throw new BadRequestException('Hotel room not found');
     const reservationDto = {
       userId: request.user.id,
       hotelId: hotelRoom.hotel.toString(),

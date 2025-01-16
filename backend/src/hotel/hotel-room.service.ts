@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { HotelRoom, HotelRoomDocument } from './schemas/hotel-room.schema';
 import { ID, IHotelRoomService, SearchRoomsParams } from './interfaces/hotel-room';
 
@@ -16,6 +16,7 @@ export class HotelRoomService implements IHotelRoomService {
   }
 
   async findById(id: ID): Promise<HotelRoomDocument> {
+    if (!Types.ObjectId.isValid(id)) throw new BadRequestException('Invalid Hotel Room id');
     return this.hotelRoomModel.findById(id).exec();
   }
 

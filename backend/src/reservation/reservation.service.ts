@@ -1,25 +1,17 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ID, IReservation, ReservationDto, ReservationSearchOptions } from './interfaces/reservation';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { Reservation, ReservationDocument } from './schemas/reservation.schema';
 import { ReservationResponse } from 'src/api/reservation-api/interfaces/reservation-api';
-import { HotelRoom, HotelRoomDocument } from 'src/hotel/schemas/hotel-room.schema';
+import { HotelRoomDocument } from 'src/hotel/schemas/hotel-room.schema';
 import { HotelDocument } from 'src/hotel/schemas/hotel.schema';
 
 @Injectable()
 export class ReservationService implements IReservation {
-  constructor(
-    @InjectModel(Reservation.name) private readonly reservationModel: Model<ReservationDocument>,
-    @InjectModel(HotelRoom.name) private readonly hotelRoomModel: Model<HotelRoomDocument>
-) {}
+  constructor(@InjectModel(Reservation.name) private readonly reservationModel: Model<ReservationDocument>) {}
 
   async addReservation(data: ReservationDto): Promise<ReservationResponse> {
-    if (!Types.ObjectId.isValid(data.roomId)) throw new BadRequestException('Invalid HotelRoom id');
-
-    const hotelRoom = await this.hotelRoomModel.findById(data.roomId);
-    if (!hotelRoom) throw new BadRequestException('Hotel room not exist or not available');
-
     const busyReservations = await this.reservationModel.find({
       roomId: data.roomId,
       $or: [
