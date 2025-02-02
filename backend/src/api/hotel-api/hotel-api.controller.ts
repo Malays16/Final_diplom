@@ -24,15 +24,16 @@ export class HotelApiController {
     };
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.ADMIN)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles(UserRole.ADMIN)
   @HttpCode(HttpStatus.OK)
   @Get('hotels')
   async getHotels(
-    @Query('limit') limit: number = 10,
-    @Query('offset') offset: number = 0
+    @Query('limit') limit: number = 5,
+    @Query('offset') offset: number = 0,
+    @Query('title') title: string
   ): Promise<HotelDtoResponse[]> {
-    const hotels = await this.hotelService.search({ limit, offset });
+    const hotels = await this.hotelService.search({ limit, offset, title });
     return hotels.map(hotel => {
       return {
         id: hotel.id,

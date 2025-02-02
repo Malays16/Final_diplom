@@ -1,0 +1,27 @@
+.hotels-search {
+  &-form {
+    background-color: #fff;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 10px 13px #1126920D;
+    border-radius: 8px;
+  }
+
+  &-input {
+    width: 100%;
+    padding: 8px 16px;
+    margin-bottom: 30px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 28px;
+    color: #212529;
+    background-color: #fff;
+  }
+}
+
+.input-date {
+  width: 40%;
+  padding: 10px;
+  border: 1px solid #ccc;
+}

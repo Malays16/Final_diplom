@@ -1,0 +1,36 @@
+.nav {
+  background: #fff;
+  width: 260px;
+  padding: 24px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px #1126920D;
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    text-align: left;
+  }
+
+  &__item {
+    margin-top: 10px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    >a {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 19px;
+      color: #8a92a6;
+    }
+
+    &::before {
+      content: '>';
+      color: #8a92a6;
+      margin-right: 10px;
+    }
+  }
+}

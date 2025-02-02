@@ -5,7 +5,7 @@ export type ID = string;
 export interface SearchHotelParams {
   limit: number;
   offset: number;
-  title?: number;
+  title?: string;
 }
 
 export interface UpdateHotelParams {
