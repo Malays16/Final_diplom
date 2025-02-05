@@ -31,6 +31,7 @@
 .btn {
   display: inline-flex;
   align-items: center;
+  width: fit-content;
   height: 44px;
   padding: 0 24px;
   font-size: 16px;
@@ -38,13 +39,24 @@
   color: #fff;
   border: none;
   cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    color: #fff;
+  }
 }
 
 .btn-primary {
   background-color: #5d73e1;
+  &:hover {
+    background-color: #4f65d8;
+  }
 }
 .btn-change {
   background-color: #e1855d;
+  &:hover {
+    background-color: #d3744f;
+  }
 }
 
 .pagination {

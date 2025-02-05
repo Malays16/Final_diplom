@@ -15,12 +15,14 @@ export class HotelApiController {
   @Roles(UserRole.ADMIN)
   @HttpCode(HttpStatus.CREATED)
   @Post('hotels')
-  async createHotel(@Body() createHotelDto: CreateHotelDto): Promise<HotelDtoResponse> {
+  async createHotel(
+    @Body() createHotelDto: CreateHotelDto,
+  ): Promise<HotelDtoResponse> {
     const { id } = await this.hotelService.create(createHotelDto);
     return {
       id: id,
       title: createHotelDto.title,
-      description: createHotelDto.description
+      description: createHotelDto.description,
     };
   }
 
@@ -31,28 +33,44 @@ export class HotelApiController {
   async getHotels(
     @Query('limit') limit: number = 5,
     @Query('offset') offset: number = 0,
-    @Query('title') title: string
+    @Query('title') title: string,
   ): Promise<HotelDtoResponse[]> {
     const hotels = await this.hotelService.search({ limit, offset, title });
-    return hotels.map(hotel => {
+    return hotels.map((hotel) => {
       return {
         id: hotel.id,
         title: hotel.title,
-        description: hotel.description
+        description: hotel.description,
       };
     });
+  }
+
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles(UserRole.ADMIN)
+  @HttpCode(HttpStatus.OK)
+  @Get('hotels/:id')
+  async getHotel(@Param('id') id: ID): Promise<HotelDtoResponse> {
+    const hotel = await this.hotelService.findById(id);
+    return {
+      id: hotel.id,
+      title: hotel.title,
+      description: hotel.description,
+    };
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
   @HttpCode(HttpStatus.OK)
   @Put('hotels/:id')
-  async updateHotel(@Param('id') id: ID, @Body() updateHotelDto: UpdateHotelParams): Promise<HotelDtoResponse> {
+  async updateHotel(
+    @Param('id') id: ID,
+    @Body() updateHotelDto: UpdateHotelParams,
+  ): Promise<HotelDtoResponse> {
     const updatedHotel = await this.hotelService.update(id, updateHotelDto);
     return {
       id: updatedHotel.id,
       title: updatedHotel.title,
-      description: updatedHotel.description
+      description: updatedHotel.description,
     };
   }
 }

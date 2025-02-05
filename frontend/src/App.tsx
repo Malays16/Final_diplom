@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Header from '@/components/Header';
 import AllHotels from '@/pages/AllHotels';
 import Nav from '@/components/Nav';
+import HotelDetail from '@/pages/HotelDetail';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Nav />
         <Routes>
           <Route path="/hotels" Component={AllHotels} />
+          <Route path="/hotels/:id" Component={HotelDetail} />
           <Route path="/" Component={AllHotels} />
         </Routes>
       </main>
