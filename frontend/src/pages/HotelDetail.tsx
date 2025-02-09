@@ -18,7 +18,7 @@ const HotelDetail: React.FC = () => {
     return <div className="error-page">Error: Hotel not found</div>;
   }
 
-  const loadHotelDetail = async (hotelId: string) => {
+  const loadHotelDetail = async (hotelId: HotelId) => {
     const data = await getHotel(hotelId);
     setHotel(data);
     setLoading(false);

@@ -11,6 +11,9 @@ export class Hotel {
   @Prop()
   description: string;
 
+  @Prop({ type: [String], default: [] })
+  images: string[];
+
   @Prop({ required: true })
   createdAt: Date;
 

@@ -1,24 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './HotelsList.scss';
+import { Hotel } from '@/types/hotel';
+import { STATIC_IMG } from '@/services/apiConfig';
 
-const HotelsList: React.FC<{ hotels: any[] }> = ({ hotels }) => {
+const HotelsList: React.FC<{ hotels: Hotel[] }> = ({ hotels }) => {
   const issetHotels = hotels && hotels.length > 0;
   return (
     <div className="hotel-list">
       {issetHotels &&
-        hotels.map((hotel: any) => (
+        hotels.map((hotel: Hotel) => (
           <div key={hotel.id} className="hotel-item">
             <div className="hotel-img">
               <img
-                src="https://yastatic.net/naydex/yandex-search/9pWNX5z16/95a196BGxrnj/YSKLrlMsDwZEuMyr9iac5RGMuI4xZV8zaWW5w8zmYA8Oa4JX2DryDZ1pZJE-qIKXW-b25fb0WThK4NhxgnPt1uVmT9pC6doCNW2MK8Z2vTDFvalLkSCOl0ylTYY8JiB_Xf0wUO9pVWvK3pMmmh0CUlviRwFCx5qA"
+                src={hotel.images.length ? `${STATIC_IMG}/hotels/${hotel.images[0]}` : ''}
                 alt={hotel.title}
               />
             </div>
             <div className="hotel-info">
               <h2 className="hotel-title">{hotel.title}</h2>
               <p className="hotel-description">{hotel.description}</p>
-              <Link to={`/hotels/${hotel.id}`} className="hotel-detail-btn">
+              <Link to={`/hotels/${hotel.id}`} className="btn btn-primary">
                 Подробнее
               </Link>
             </div>

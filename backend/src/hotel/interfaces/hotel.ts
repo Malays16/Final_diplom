@@ -11,6 +11,7 @@ export interface SearchHotelParams {
 export interface UpdateHotelParams {
   title: string;
   description: string;
+  images?: string[];
   updatedAt?: Date;
 }
 

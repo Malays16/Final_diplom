@@ -1,5 +1,5 @@
-.hotel {
-  &-detail-info {
+.hotel-detail {
+  &-info {
     display: flex;
     flex-direction: column;
     background-color: #fff;
@@ -11,15 +11,16 @@
 
   &-images {
     display: flex;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
   }
 
   &-img {
-    width: 250px;
-    height: 190px;
+    width: 200px;
+    height: 140px;
     border-radius: 8px;
     overflow: hidden;
-    margin-bottom: 30px;
 
     img {
       width: 100%;
@@ -30,6 +31,7 @@
 
   &-title {
     font-size: 33px;
+    line-height: 40px;
     font-weight: 500;
     color: #232D42;
     margin-bottom: 14px;
@@ -42,9 +44,9 @@
     color: #8a92a6;
     margin-bottom: 32px;
   }
+}
 
-  &-ctrl-bnts {
-    display: flex;
-    gap: 20px;
-  }
+.hotel-ctrl-bnts {
+  display: flex;
+  gap: 20px;
 }

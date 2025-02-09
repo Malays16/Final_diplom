@@ -19,7 +19,7 @@ const HotelRoomsList: React.FC<HotelRoomsListProps> = ({ hotelId }) => {
   const loadHotelRooms = useCallback(
     async (page: number = 1) => {
       const offset = (page - 1) * limit;
-      const data = await getHotelRooms(limit, offset, hotelId, checkIn, checkOut);
+      const data = await getHotelRooms({ limit, offset, hotel: hotelId, checkIn, checkOut });
       setHotelRooms(data);
       setLoading(false);
     },

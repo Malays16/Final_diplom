@@ -2,13 +2,14 @@ import { getHotels } from '@/services/hotels/hotelService';
 import React, { useState, useEffect } from 'react';
 import HotelsList from '@components/HotelsList';
 import './HotelsSearch.scss';
+import { Hotel } from '@/types/hotel';
 
 const HotelsSearch: React.FC = () => {
-  const [hotelName, setHotelName] = useState('');
-  const [hotels, setHotels] = useState([]);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const hotelsPerPage = 5;
+  const [hotelName, setHotelName] = useState<string>('');
+  const [hotels, setHotels] = useState<Hotel[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const hotelsPerPage: number = 5;
 
   const getTotalCount = async () => {
     const data = await getHotels(hotelName, 0, 0);

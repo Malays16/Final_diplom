@@ -11,3 +11,11 @@ export interface HotelRoom {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface HotelRoomDto {
+  limit: number;
+  offset: number;
+  hotel: string;
+  checkIn?: string;
+  checkOut?: string;
+}
