@@ -1,7 +1,7 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { HttpException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { SearchHotelRoomInterface } from './interfaces/hotel-room-api';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import mongoose, { Model, Types } from 'mongoose';
 import { HotelRoom, HotelRoomDocument } from 'src/hotel/schemas/hotel-room.schema';
 import { HotelDocument } from 'src/hotel/schemas/hotel.schema';
 import { Reservation, ReservationDocument } from 'src/reservation/schemas/reservation.schema';
@@ -47,6 +47,7 @@ export class HotelRoomApiService {
       return availableRooms.map(room => {
         return {
           id: room.id,
+          title: room.title,
           description: room.description,
           images: room.images,
           hotel: {
@@ -61,11 +62,14 @@ export class HotelRoomApiService {
   }
 
   async getRoomInfo(id: ID): Promise<SearchHotelRoomInterface> {
+    const isValid = mongoose.Types.ObjectId.isValid(id);
+    if (!isValid) throw new HttpException('Invalid room id', 400);
     try {
       const room = await this.hotelRoomModel.findById(id).populate<{ hotel: HotelDocument }>('hotel').exec();
 
       return {
         id: room.id,
+        title: room.title,
         description: room.description,
         images: room.images,
         hotel: {

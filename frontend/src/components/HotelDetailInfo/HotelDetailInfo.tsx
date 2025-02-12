@@ -24,7 +24,7 @@ const HotelDetailInfo: React.FC<HotelDetailInfoProps> = ({ hotel }) => {
         <a href={`/hotels/${hotel.id}/edit`} className="btn btn-change">
           Редактировать
         </a>
-        <a href={`/hotels/${hotel.id}/add-hotel-room`} className="btn btn-primary">
+        <a href={`/hotels/${hotel.id}/add-room`} className="btn btn-primary">
           Добавить номер
         </a>
       </div>

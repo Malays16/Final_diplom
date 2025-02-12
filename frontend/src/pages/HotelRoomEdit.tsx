@@ -1,39 +1,39 @@
 import { API_URL, STATIC_IMG } from '@/services/apiConfig';
-import { addHotel, getHotel, updateHotel } from '@/services/hotels/hotelService';
+import { addRoom, getHotelRoom, updateRoom } from '@/services/hotels/roomService';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const HotelEdit: React.FC = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [pageTitle, setPageTitle] = useState('');
+const HotelRoomEdit: React.FC = () => {
+  const [pageTitle, setPageTitle] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
   const [images, setImages] = useState<string[]>([]);
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  const { hotelId, roomId } = useParams<{ hotelId: string; roomId: string }>();
 
   useEffect(() => {
-    const fetchHotel = async (hotelId: string) => {
+    const fetchRoom = async (roomId: string) => {
       try {
-        const hotel = await getHotel(hotelId);
-        setTitle(hotel.title);
-        setDescription(hotel.description);
-        setImages(hotel.images || []);
+        const room = await getHotelRoom(roomId);
+        setTitle(room.title);
+        setDescription(room.description);
+        setImages(room.images || []);
       } catch (error) {
         console.error(error);
       }
     };
 
-    if (id) {
-      fetchHotel(id);
-      setPageTitle('Редактирование отеля');
+    if (roomId) {
+      fetchRoom(roomId);
+      setPageTitle('Редактирование номера');
     } else {
-      setPageTitle('Добавление отеля');
+      setPageTitle('Добавление номера');
       setTitle('');
       setDescription('');
       setImages([]);
     }
-  }, [id]);
+  }, [roomId]);
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
@@ -42,7 +42,7 @@ const HotelEdit: React.FC = () => {
       Array.from(files).map(async file => {
         const formData = new FormData();
         formData.append('files', file);
-        const response = await axios.post(`${API_URL}/admin/hotels/upload`, formData, {
+        const response = await axios.post(`${API_URL}/admin/hotel-rooms/upload`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -61,14 +61,15 @@ const HotelEdit: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const hotelData = { title, description, images };
+    if (!hotelId) return;
+    const roomData = { title, description, images, hotel: hotelId };
     try {
-      if (id) {
-        await updateHotel(id, hotelData);
+      if (roomId) {
+        await updateRoom(roomId, roomData);
       } else {
-        await addHotel(hotelData);
+        await addRoom(roomData);
       }
-      navigate('/hotels');
+      navigate(`/hotels/${hotelId}`);
     } catch (error) {
       console.error(error);
     }
@@ -78,14 +79,14 @@ const HotelEdit: React.FC = () => {
     <div className="page">
       <form className="edit-form" onSubmit={handleSubmit}>
         <h2 className="page-title">{pageTitle}</h2>
-        <div className="hotel-images">
+        <div className="room-images">
           {images.length > 0 && (
             <div className="form-input">
               <div className="images-list">
                 {images.map((image, index) => (
                   <div className="image" key={index}>
                     <div className="remove" onClick={() => handleImageRemove(image)}></div>
-                    <img src={`${STATIC_IMG}/hotels/${image}`} alt={`Image ${index}`} />
+                    <img src={`${STATIC_IMG}/hotel-rooms/${image}`} alt={`Image ${index}`} />
                   </div>
                 ))}
               </div>
@@ -96,20 +97,21 @@ const HotelEdit: React.FC = () => {
             <input type="file" id="images-input" multiple onChange={handleImageUpload} />
           </div>
         </div>
+
         <div className="form-input">
-          <label htmlFor="hotel-title">Название отеля</label>
+          <label htmlFor="room-title">Название номера</label>
           <input
             type="text"
-            id="hotel-title"
+            id="room-title"
             value={title}
             onChange={e => setTitle(e.target.value)}
           />
         </div>
         <div className="form-input">
-          <label htmlFor="hotel-description">Описание отеля</label>
+          <label htmlFor="room-description">Описание номера</label>
           <textarea
-            name="hotel-description"
-            id="hotel-description"
+            name="room-description"
+            id="room-description"
             value={description}
             onChange={e => setDescription(e.target.value)}></textarea>
         </div>
@@ -117,14 +119,8 @@ const HotelEdit: React.FC = () => {
           <button type="submit" className="btn btn-success" disabled={title === ''}>
             Сохранить
           </button>
-          <button type="button" className="btn btn-cancel" onClick={() => navigate('/hotels')}>
+          <button type="button" className="btn btn-cancel" onClick={() => navigate(-1)}>
             Отменить
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => navigate(`/hotels/${id}/add-room`)}>
-            Добавить номер
           </button>
         </div>
       </form>
@@ -132,4 +128,4 @@ const HotelEdit: React.FC = () => {
   );
 };
 
-export default HotelEdit;
+export default HotelRoomEdit;

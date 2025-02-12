@@ -1,7 +1,8 @@
-import { HotelDtoResponse } from "src/api/hotel-api/interfaces/hotel-api";
+import { HotelDtoResponse } from 'src/api/hotel-api/interfaces/hotel-api';
 
 export interface SearchHotelRoomInterface {
-  id: string;
+  id?: string;
+  title: string;
   description: string;
   images: string[];
   hotel: HotelDtoResponse;
@@ -12,6 +13,7 @@ export interface HotelRoomResponse extends SearchHotelRoomInterface {
 }
 
 export interface CreateRoomHotelDto {
+  title: string;
   description: string;
   hotelId: string;
   images: string[];

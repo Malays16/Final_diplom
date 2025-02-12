@@ -19,3 +19,5 @@ export interface HotelRoomDto {
   checkIn?: string;
   checkOut?: string;
 }
+
+export type RoomDto = Omit<HotelRoom, 'id' | 'createdAt' | 'updatedAt'>;
