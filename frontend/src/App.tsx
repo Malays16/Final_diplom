@@ -6,6 +6,7 @@ import Nav from '@/components/Nav';
 import HotelDetail from '@/pages/HotelDetail';
 import HotelEdit from '@/pages/HotelEdit';
 import HotelRoomEdit from '@/pages/HotelRoomEdit';
+import UsersPage from './pages/UsersPage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/hotels/:id/edit" Component={HotelEdit} />
           <Route path="/hotels/:hotelId/add-room" Component={HotelRoomEdit} />
           <Route path="/hotels/:hotelId/edit-room/:roomId" Component={HotelRoomEdit} />
+          <Route path="/users" Component={UsersPage} />
         </Routes>
       </main>
     </div>

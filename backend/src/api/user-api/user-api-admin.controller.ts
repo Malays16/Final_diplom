@@ -10,16 +10,16 @@ import { SearchUserParams, UserResponse, UserRole } from 'src/user/interfaces/us
 export class UserApiAdminController {
   constructor(private readonly userService: UserService) {}
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.ADMIN)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles(UserRole.ADMIN)
   @HttpCode(HttpStatus.CREATED)
   @Post('users')
   async createUser(@Body() data: User): Promise<UserDocument> {
     return await this.userService.create(data);
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.ADMIN)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles(UserRole.ADMIN)
   @HttpCode(HttpStatus.OK)
   @Get('users')
   async getUsers(@Query() query: SearchUserParams): Promise<UserResponse[]> {

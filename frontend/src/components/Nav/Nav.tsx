@@ -5,7 +5,8 @@ const Nav = () => {
   const navItems = [
     { label: 'Все гостиницы', link: '/hotels' },
     { label: 'Поиск номера', link: '/' },
-    { label: 'Добавить гостиницу', link: '/hotels/add' }
+    { label: 'Добавить гостиницу', link: '/hotels/add' },
+    { label: 'Пользователи', link: '/users' }
   ];
 
   return (
