@@ -30,6 +30,14 @@
       &:first-child {
         color: #8a92a6;
       }
+
+      a {
+        color: #2e46ba;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
 
     td {

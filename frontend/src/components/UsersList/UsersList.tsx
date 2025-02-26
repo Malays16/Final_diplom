@@ -1,6 +1,7 @@
 import React from 'react';
 import './UsersList.scss';
 import { UsersListProps } from '@/types/user';
+import { Link } from 'react-router-dom';
 
 const UsersList: React.FC<UsersListProps> = ({ users }) => {
   return (
@@ -19,7 +20,7 @@ const UsersList: React.FC<UsersListProps> = ({ users }) => {
             users.map(user => (
               <tr className="users-list-item" key={user.id}>
                 <td>
-                  <a href={`/reservations/user/${user.id}`}>{user.id}</a>
+                  <Link to={`/reservations/user/${user.id}`}>{user.id}</Link>
                 </td>
                 <td>{user.name}</td>
                 <td>{user.contactPhone}</td>

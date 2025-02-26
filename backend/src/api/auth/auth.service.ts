@@ -33,9 +33,9 @@ export class AuthService {
   }
 
   async login(user: UserDocument): Promise<LoginResponse> {
-    const { id, email, name, contactPhone } = user;
+    const { id, email, name, contactPhone, role } = user;
     const token = this.createToken({ id, email });
-    return { email, name, contactPhone, access_token: token };
+    return { email, name, contactPhone, role, access_token: token };
   }
 
   async register(registerDto: RegisterDto): Promise<UserDocument> {
@@ -48,7 +48,7 @@ export class AuthService {
         passwordHash: registerDto.password,
         name: registerDto.name,
         contactPhone: registerDto.contactPhone,
-        role: UserRole.CLIENT
+        role: UserRole.ADMIN
       });
     } catch (error) {
       console.error('Error user register', error);

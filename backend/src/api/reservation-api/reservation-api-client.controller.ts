@@ -33,8 +33,8 @@ export class ReservationApiClientController {
     return await this.reservationService.addReservation(reservationDto);
   }
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(UserRole.CLIENT)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.CLIENT)
   @HttpCode(HttpStatus.OK)
   @Get('reservations')
   async getReservations(@Req() request: ReqUser): Promise<ReservationResponse[]> {

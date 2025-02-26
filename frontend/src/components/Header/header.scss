@@ -1,5 +1,6 @@
 .header {
   display: flex;
+  position: relative;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
@@ -38,9 +39,37 @@
       line-height: 16px;
       color: #8a92a6;
       text-decoration: none;
+      cursor: pointer;
+    }
 
-      &:hover {
-        text-decoration: underline;
+    span {
+      color: #8a92a6;
+      margin: 0 10px;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+
+      &::after {
+        position: relative;
+        content: '';
+        display: inline-block;
+        border-style: solid;
+        border-width: 1px 1px 0 0;
+        width: 7px;
+        height: 7px;
+        right: 0;
+        top: -2px;
+        transform: rotate(135deg);
+        margin-left: 10px;
+        transition: transform 0.2s ease;
+      }
+
+      &.active {
+        &::after {
+          top: 2px;
+          transform: rotate(-45deg);
+        }
       }
     }
   }

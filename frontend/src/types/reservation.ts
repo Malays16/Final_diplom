@@ -7,3 +7,7 @@ export interface Reservation {
     description: string;
   };
 }
+
+export interface ReservationsListProps {
+  reservations: Reservation[];
+}

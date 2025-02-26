@@ -1,6 +1,7 @@
 import { User, UsersQueryParams } from '@/types/user';
 import { API_URL } from '../apiConfig';
 import axios from 'axios';
+import authHeader from '../auth/authHeader';
 
 export const getUsers = async (limit: number, offset: number, query?: string): Promise<User[]> => {
   try {
@@ -10,7 +11,10 @@ export const getUsers = async (limit: number, offset: number, query?: string): P
       else if (/\d/.test(query)) params.contactPhone = query;
       else params.name = query;
     }
-    const response = await axios.get(`${API_URL}/admin/users`, { params });
+    const response = await axios.get(`${API_URL}/admin/users`, {
+      params,
+      headers: authHeader()
+    });
     return response.data;
   } catch (error) {
     throw new Error(`Failed fetching users: ${error}`);
@@ -19,7 +23,9 @@ export const getUsers = async (limit: number, offset: number, query?: string): P
 
 export const getUserById = async (userId: string): Promise<User> => {
   try {
-    const response = await axios.get(`${API_URL}/manager/user/${userId}`);
+    const response = await axios.get(`${API_URL}/manager/user/${userId}`, {
+      headers: authHeader()
+    });
     return response.data;
   } catch (error) {
     throw new Error(`Failed fetching user: ${error}`);

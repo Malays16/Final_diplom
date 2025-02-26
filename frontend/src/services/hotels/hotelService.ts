@@ -2,6 +2,7 @@ import { API_URL } from '../apiConfig';
 import axios from 'axios';
 import { Hotel, HotelDto, HotelId } from '@/types/hotel';
 import { HotelRoom, HotelRoomDto } from '@/types/hotel-room';
+import authHeader from '../auth/authHeader';
 
 export const getHotels = async (
   title?: string,
@@ -14,7 +15,8 @@ export const getHotels = async (
         limit,
         offset,
         title: title || ''
-      }
+      },
+      headers: authHeader()
     });
     return response.data;
   } catch (error) {
@@ -50,11 +52,17 @@ export const getHotelRooms = async (hotelRoomDto: HotelRoomDto): Promise<HotelRo
 
 export const addHotel = async (data: HotelDto): Promise<Hotel> => {
   try {
-    const response = await axios.post(`${API_URL}/admin/hotels`, {
-      title: data.title,
-      description: data.description,
-      images: data.images
-    });
+    const response = await axios.post(
+      `${API_URL}/admin/hotels`,
+      {
+        title: data.title,
+        description: data.description,
+        images: data.images
+      },
+      {
+        headers: authHeader()
+      }
+    );
     return response.data;
   } catch (error) {
     throw new Error(`Failed adding hotel: ${error}`);
@@ -63,11 +71,17 @@ export const addHotel = async (data: HotelDto): Promise<Hotel> => {
 
 export const updateHotel = async (id: HotelId, data: HotelDto): Promise<Hotel> => {
   try {
-    const response = await axios.put(`${API_URL}/admin/hotels/${id}`, {
-      title: data.title,
-      description: data.description,
-      images: data.images
-    });
+    const response = await axios.put(
+      `${API_URL}/admin/hotels/${id}`,
+      {
+        title: data.title,
+        description: data.description,
+        images: data.images
+      },
+      {
+        headers: authHeader()
+      }
+    );
     return response.data;
   } catch (error) {
     throw new Error(`Failed updating hotel: ${error}`);

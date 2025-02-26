@@ -1,0 +1,27 @@
+.auth-form {
+  &-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 16px;
+
+    input {
+      padding: 8px 12px;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      font-size: 16px;
+      background-color: #fff;
+
+      &::placeholder {
+        color: #8a92a6;
+      }
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus,
+      &:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px #fff inset !important;
+      }
+    }
+  }
+}

@@ -8,6 +8,8 @@ import HotelEdit from '@/pages/HotelEdit';
 import HotelRoomEdit from '@/pages/HotelRoomEdit';
 import UsersPage from './pages/UsersPage';
 import UserReservations from './pages/UserReservations';
+import ProtectedRoute from './services/auth/ProtectedRoute';
+import { UserRole } from './types/user';
 
 function App() {
   return (
@@ -19,12 +21,54 @@ function App() {
           <Route path="/hotels" Component={AllHotels} />
           <Route path="/hotels/:id" Component={HotelDetail} />
           <Route path="/" Component={AllHotels} />
-          <Route path="/hotels/add" Component={HotelEdit} />
-          <Route path="/hotels/:id/edit" Component={HotelEdit} />
-          <Route path="/hotels/:hotelId/add-room" Component={HotelRoomEdit} />
-          <Route path="/hotels/:hotelId/edit-room/:roomId" Component={HotelRoomEdit} />
-          <Route path="/users" Component={UsersPage} />
-          <Route path="/reservations/user/:userId" Component={UserReservations} />
+          <Route
+            path="/hotels/add"
+            element={
+              <ProtectedRoute userRole={UserRole.ADMIN}>
+                <HotelEdit />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/hotels/:id/edit"
+            element={
+              <ProtectedRoute userRole={UserRole.ADMIN}>
+                <HotelEdit />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/hotels/:hotelId/add-room"
+            element={
+              <ProtectedRoute userRole={UserRole.ADMIN}>
+                <HotelRoomEdit />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/hotels/:hotelId/edit-room/:roomId"
+            element={
+              <ProtectedRoute userRole={UserRole.ADMIN}>
+                <HotelRoomEdit />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute userRole={UserRole.ADMIN}>
+                <UsersPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reservations/user/:userId"
+            element={
+              <ProtectedRoute userRole={UserRole.ADMIN}>
+                <UserReservations />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
     </div>

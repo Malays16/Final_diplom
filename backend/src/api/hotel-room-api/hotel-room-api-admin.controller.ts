@@ -18,8 +18,8 @@ export class HotelRoomApiAdminController {
     private readonly hotelService: HotelService
   ) {}
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(UserRole.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   @HttpCode(HttpStatus.CREATED)
   @Post('hotel-rooms')
   async createHotelRoom(@Body() createHotelRoomDto: CreateRoomHotelDto): Promise<HotelRoomResponse> {
@@ -40,8 +40,8 @@ export class HotelRoomApiAdminController {
     };
   }
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(UserRole.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   @HttpCode(HttpStatus.OK)
   @Put('hotel-rooms/:id')
   async updateHotelRoom(@Param('id') id: ID, @Body() updateHotelRoomDto: UpdateHotelRoomDto): Promise<HotelRoomResponse> {
@@ -62,6 +62,8 @@ export class HotelRoomApiAdminController {
     };
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   @HttpCode(HttpStatus.CREATED)
   @Post('hotel-rooms/upload')
   @UseInterceptors(
