@@ -6,8 +6,7 @@ export const login = async (user: LoginUserDto): Promise<AuthUser> => {
   try {
     const response = await axios.post(
       `${API_URL}/auth/login`,
-      { email: user.email, password: user.password },
-      { withCredentials: true }
+      { email: user.email, password: user.password }
     );
     if (response.data?.access_token) {
       localStorage.setItem('user', JSON.stringify(response.data));
@@ -28,8 +27,7 @@ export const register = async (user: RegUserDto): Promise<User> => {
         password: user.password,
         name: user.name,
         contactPhone: user.contactPhone
-      },
-      { withCredentials: true }
+      }
     );
     return response.data;
   } catch (error) {
