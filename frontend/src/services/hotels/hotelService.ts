@@ -26,7 +26,9 @@ export const getHotels = async (
 
 export const getHotel = async (id: HotelId): Promise<Hotel> => {
   try {
-    const response = await axios.get(`${API_URL}/admin/hotels/${id}`);
+    const response = await axios.get(`${API_URL}/admin/hotels/${id}`, {
+      headers: authHeader()
+    });
     return response.data;
   } catch (error) {
     throw new Error(`Failed fetching hotel: ${error}`);

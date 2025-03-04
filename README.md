@@ -43,13 +43,9 @@
 #### Support Chat Module
 
 - **Support Chat Controller (`support-chat.controller.ts`)**: Предоставляет функционал для чата тех поддержки.
-
 - **Support Services**:
-
 - `support-request.service.ts`: Управляет общими запросами чата тех поддержки.
-
 - `support-request-client.service.ts`: Обрабатывает действия клиентов для чата тех поддержки.
-
 - `support-request-employee.service.ts`: Обрабатывает действия сотрудников для чата тех поддержки.
 
 #### Hotel Module
@@ -61,25 +57,38 @@
 #### Основные страницы приложения
 
 - **`src/pages/AllHotels.tsx`**: Страница, на которой выводится список всех гостиниц.
-
 - **`src/pages/HotelDetail.tsx`**: Страница с детальной информацией о выбранной гостинице.
-
 - **`src/pages/HotelEdit.tsx`**: Страница для редактирования информации о гостинице.
-
 - **`src/pages/HotelRoomEdit.tsx`**: Страница для редактирования информации о номерах гостиниц.
+- **`src/pages/UsersPage.tsx`**: Страница для просмотра списка пользователей и управления ими.
+- **`src/pages/UserReservations.tsx`**: Страница для просмотра бронирований пользователя.
 
-## Установка и запуск
+## Установка и запуск с использованием docker и docker-compose
 
-### Backend
+```bash
+$ docker-compose up --build
+# После запуска проект будет доступен по адресу http://localhost
 
-#### Установка
+# Пересборка и перезапуск контейнеров
+$ docker-compose down && docker-compose up --build
+```
+
+## Установка и запуск без использования docker
+
+### Установка backend
 
 ```bash
 $ cd backend
 $ npm install
 ```
 
-#### Запуск бэкенд
+Если возникнут проблемы с установкой, использовать флаг `--legacy-peer-deps`
+
+```bash
+$ npm install --legacy-peer-deps
+```
+
+### Запуск бэкенд
 
 ```bash
 # development
@@ -92,16 +101,14 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-### Frontend
-
-#### Установка
+### Установка frontend
 
 ```bash
-$ cd frontend
+$ cd ../frontend
 $ npm install
 ```
 
-#### Запуск фронтенд проекта
+### Запуск фронтенд
 
 ```bash
 # development

@@ -27,6 +27,8 @@ services:
     working_dir: /app
     env_file:
       - ./frontend/.env
+    depends_on:
+      - backend
 
   mongo:
     container_name: mongo
@@ -36,6 +38,14 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+      - mongo-configdb:/data/configdb
 
 volumes:
   mongo-data:
+    driver: local
+  mongo-configdb:
+    driver: local
+
+networks:
+  default:
+    driver: bridge

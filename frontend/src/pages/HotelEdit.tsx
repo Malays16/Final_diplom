@@ -1,4 +1,5 @@
 import { API_URL, STATIC_IMG } from '@/services/apiConfig';
+import authHeader from '@/services/auth/authHeader';
 import { addHotel, getHotel, updateHotel } from '@/services/hotels/hotelService';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -42,10 +43,13 @@ const HotelEdit: React.FC = () => {
       Array.from(files).map(async file => {
         const formData = new FormData();
         formData.append('files', file);
+        const headers = authHeader();
+        headers['Content-Type'] = 'multipart/form-data';
         const response = await axios.post(`${API_URL}/admin/hotels/upload`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+          headers
+          // headers: {
+          //   'Content-Type': 'multipart/form-data'
+          // }
         });
         return response.data.images;
       })
@@ -120,12 +124,14 @@ const HotelEdit: React.FC = () => {
           <button type="button" className="btn btn-cancel" onClick={() => navigate('/hotels')}>
             Отменить
           </button>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => navigate(`/hotels/${id}/add-room`)}>
-            Добавить номер
-          </button>
+          {id && (
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => navigate(`/hotels/${id}/add-room`)}>
+              Добавить номер
+            </button>
+          )}
         </div>
       </form>
     </div>
