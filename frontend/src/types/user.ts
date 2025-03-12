@@ -26,7 +26,7 @@ export enum UserRole {
   MANAGER = 'manager'
 }
 
-export type AuthUser = Omit<User, 'id'> & { access_token: string };
+export type AuthUser = User & { access_token: string };
 
 export type RegUserDto = Omit<User, 'id' | 'role'> & { password: string };
 

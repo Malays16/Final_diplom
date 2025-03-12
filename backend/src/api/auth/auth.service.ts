@@ -8,6 +8,7 @@ import { UserRole } from 'src/user/interfaces/user';
 
 @Injectable()
 export class AuthService {
+kk
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService
@@ -48,7 +49,7 @@ export class AuthService {
         passwordHash: registerDto.password,
         name: registerDto.name,
         contactPhone: registerDto.contactPhone,
-        role: UserRole.ADMIN
+        role: UserRole.CLIENT
       });
     } catch (error) {
       console.error('Error user register', error);

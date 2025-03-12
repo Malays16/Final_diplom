@@ -25,11 +25,11 @@ export class UserService implements IUserService {
   }
 
   async findById(id: ID): Promise<UserDocument> {
-    return this.userModel.findById(id).exec();
+    return await this.userModel.findById(id).exec();
   }
 
   async findByEmail(email: string): Promise<UserDocument> {
-    return this.userModel.findOne({ email }).exec();
+    return await this.userModel.findOne({ email }).exec();
   }
 
   async findAll(params: SearchUserParams): Promise<UserResponse[]> {
