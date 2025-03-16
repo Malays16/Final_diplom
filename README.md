@@ -42,11 +42,10 @@
 
 #### Support Chat Module
 
-- **Support Chat Controller (`support-chat.controller.ts`)**: Предоставляет функционал для чата тех поддержки.
-- **Support Services**:
-- `support-request.service.ts`: Управляет общими запросами чата тех поддержки.
-- `support-request-client.service.ts`: Обрабатывает действия клиентов для чата тех поддержки.
-- `support-request-employee.service.ts`: Обрабатывает действия сотрудников для чата тех поддержки.
+- **Support Chat Controller (`chat.controller.ts`)**: Обрабатывает API вызовы, связанные с чатом тех поддержки.
+- **Support Chat Services**:
+- `chat.service.ts`: Управляет запросами чата тех поддержки.
+- `chat.gateway.ts`: Обрабатывает соединения сокетов и события для чата тех поддержки.
 
 #### Hotel Module
 
@@ -62,6 +61,9 @@
 - **`src/pages/HotelRoomEdit.tsx`**: Страница для редактирования информации о номерах гостиниц.
 - **`src/pages/UsersPage.tsx`**: Страница для просмотра списка пользователей и управления ими.
 - **`src/pages/UserReservations.tsx`**: Страница для просмотра бронирований пользователя.
+- **`src/pages/SupportChatPage.tsx`**: Страница для общения менеджера с клиентом через чат поддержки.
+- **`src/pages/SupportRequestsPage.tsx`**: Страница списка запросов в чат тех поддержки.
+- **`src/components/Chat/ClientChat/ClientChat.tsx`**: Компонент чата клиента для общения с менеджером.
 
 ## Установка и запуск с использованием docker и docker-compose
 

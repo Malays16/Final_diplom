@@ -8,13 +8,13 @@ export class Message {
   @Prop({ required: true })
   author: string;
 
-  @Prop({ required: true, default: Date.now })
+  @Prop({ required: true, default: () => Date.now() })
   sentAt: Date;
 
   @Prop({ required: true })
   text: string;
 
-  @Prop()
+  @Prop({ type: Date, default: null })
   readAt: Date;
 
   @Prop({ type: Types.ObjectId, ref: 'SupportRequest', required: true })

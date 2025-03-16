@@ -58,11 +58,106 @@ h1 {
 
 .users-page,
 .requests-page,
+.support-chat-page,
 .reservations-page {
   background-color: #fff;
   padding: 24px;
   border-radius: 8px;
   box-shadow: 0 10px 13px #1126920D;
+}
+
+.support-chat {
+  &-page {
+    display: flex;
+    flex-direction: column;
+    height: calc(85vh - 100px);
+  }
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e5e5ea;
+  }
+
+  &-title {
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  &-container {
+    display: flex;
+    overflow: hidden;
+    padding: 30px 0;
+    height: 100%;
+  }
+
+  &-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .message {
+      border-radius: 8px;
+      max-width: 55%;
+      padding: 8px 20px;
+    }
+
+    .message-manager {
+      text-align: left;
+      background-color: #f2f2f7;
+      color: #2c2c2e;
+      align-self: flex-start;
+
+      .user-name {
+        color: #666;
+        margin-bottom: 3px;
+      }
+
+      .message-date {
+        color: #666;
+        font-size: 14px;
+        text-align: right;
+        margin-top: 5px;
+      }
+    }
+
+    .message-client {
+      text-align: right;
+      background-color: #f2994a;
+      color: #fff;
+      align-self: flex-end;
+
+      .user-name {
+        font-weight: bold;
+        margin-bottom: 3px;
+      }
+
+      .message-text {
+        text-align: left;
+      }
+
+      .message-date {
+        font-size: 14px;
+        margin-top: 5px;
+      }
+    }
+  }
+
+  &-input {
+    display: flex;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+
+    input {
+      flex: 1;
+      align-items: center;
+      padding: 0 12px;
+      font-size: 16px;
+    }
+  }
 }
 
 .page-title {

@@ -34,11 +34,11 @@ const RequestList: React.FC<RequestListProps> = ({
     <ul className="request-list">
       {requests.map(request => (
         <li
-          key={request._id}
+          key={request.id}
           className="request-item"
-          onClick={() => handleRequestClick(request._id)}>
+          onClick={() => handleRequestClick(request.id)}>
           <div className="request-info">
-            <span className="request-id">Запрос #{request._id}</span>
+            <span className="request-id">Запрос #{request.id}</span>
             <span className="request-date">Создан: {formatDateTime(request.createdAt)}</span>
           </div>
           <div className="request-messages">Сообщений: {request.messages.length}</div>

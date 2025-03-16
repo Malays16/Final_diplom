@@ -8,9 +8,8 @@ export interface User {
 }
 
 export interface Message {
-  id?: ID;
+  _id?: ID;
   author: ID;
-  authorName?: string;
   text: string;
   sentAt: Date;
   readAt?: Date;
@@ -18,8 +17,7 @@ export interface Message {
 }
 
 export interface SupportRequest {
-  _id: ID;
-  id?: ID;
+  id: ID;
   user: ID;
   createdAt: Date;
   isActive: boolean;
@@ -39,4 +37,10 @@ export interface SendMessageDto {
 export enum ChatRole {
   CLIENT = 'client',
   EMPLOYEE = 'employee'
+}
+
+export interface MarkMessagesAsReadDto {
+  supportRequest: ID;
+  createdBefore: Date;
+  role: ChatRole;
 }

@@ -5,6 +5,8 @@ import { io, Socket } from 'socket.io-client';
 import { Message } from '@/types/chat';
 import { getUserById } from '@/services/users/usersService';
 import { UserRole } from '@/types/user';
+import { formatDateTime } from '@/utils/dateUtils';
+import SupportLogo from '@/assets/images/support-logo.svg';
 
 interface ClientChatProps {
   userId: string;
@@ -121,21 +123,25 @@ const ClientChat: React.FC<ClientChatProps> = ({ userId }) => {
       {isOpen && (
         <div className="chat-container">
           <div className="chat-header">
-            <div className="chat-header-log">Logo</div>
+            <div className="chat-header-logo">
+              <img src={SupportLogo} alt="Support Chat" />
+            </div>
             <div className="chat-header-title">Техподдержка</div>
             <div className="chat-header-options">...</div>
           </div>
           <div className="chat-content">
-            <h4 className="chat-message-date">08.12.2022</h4>
             <div className="chat-message-list">
-              {messages.map((msg, index) => (
+              {messages.map(msg => (
                 <div
                   className={`chat-message ${msg.author === userId ? 'chat-message-client' : 'chat-message-manager'}`}
-                  key={index}>
-                  <span className="user-name">
-                    {msg.author === userId ? userName : managerInfo?.name}:
-                  </span>
-                  <span>{msg.text}</span>
+                  key={msg._id}>
+                  {msg.author !== userId &&
+                    <div className="user-name">
+                      {managerInfo?.name}
+                    </div>
+                  }
+                  <div className="chat-text">{msg.text}</div>
+                  <div className="chat-date">{formatDateTime(msg.sentAt)}</div>
                 </div>
               ))}
             </div>
@@ -146,6 +152,7 @@ const ClientChat: React.FC<ClientChatProps> = ({ userId }) => {
               placeholder="Начните печатать"
               value={message}
               onChange={e => setMessage(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleSendMessage()}
             />
             <button onClick={handleSendMessage}>
               <svg

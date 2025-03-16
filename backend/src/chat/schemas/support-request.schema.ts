@@ -6,12 +6,12 @@ export type SupportRequestDocument = SupportRequest & Document;
 @Schema()
 export class SupportRequest {
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-  user: string;
+  user: Types.ObjectId;
 
-  @Prop({ required: true, default: Date.now })
+  @Prop({ required: true, default: () => Date.now() })
   createdAt: Date;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Message' }] })
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Message', default: [] }] })
   messages: Types.ObjectId[];
 
   @Prop({ required: true })

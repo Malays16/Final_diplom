@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { SupportRequest, SupportRequestDocument } from './schemas/support-request.schema';
 import { Message, MessageDocument } from './schemas/message.schema';
 import { Model } from 'mongoose';
-import { CreateSupportRequestDto, SendMessageDto, SendMessageResponse } from './interfaces/chat';
+import { CreateSupportRequestDto, ID, SendMessageDto, SendMessageResponse } from './interfaces/chat';
 
 @Injectable()
 export class ChatService {
@@ -52,16 +52,19 @@ export class ChatService {
   }
 
   async getSupportRequests(params: any): Promise<SupportRequest[]> {
-    return await this.supportRequestModel.find(params).populate('messages').exec();
+    const response = await this.supportRequestModel.find(params).populate('messages').exec();
+    return response.map(request => ({ ...request.toObject(), id: request._id.toString() }));
   }
 
-  async getSupportRequest(requestId: string): Promise<SupportRequest> {
+  async getSupportRequest(requestId: string): Promise<SupportRequestDocument> {
     try {
       const request = await this.supportRequestModel
         .findById(requestId)
         .populate({
           path: 'messages',
-          options: { sort: { sentAt: 1 } }
+          model: 'Message',
+          options: { sort: { sentAt: 1 } },
+          select: 'text author sentAt'
         })
         .populate({
           path: 'user',
@@ -71,10 +74,23 @@ export class ChatService {
       if (!request) {
         throw new NotFoundException('Support request not found');
       }
+
       return request;
     } catch (error) {
       console.error('Error fetching support request:', error);
       throw new BadRequestException('Error fetching support request');
+    }
+  }
+
+  async closeSupportRequest(requestId: ID): Promise<SupportRequest> {
+    try {
+      const result = await this.supportRequestModel.findByIdAndUpdate(requestId, { isActive: false }, { new: true }).exec();
+
+      if (!result) throw new NotFoundException(`Support request with id ${requestId} not found`);
+      return result;
+    } catch (error) {
+      console.error('Error closing support request:', error);
+      throw new BadRequestException('Error closing support request');
     }
   }
 }

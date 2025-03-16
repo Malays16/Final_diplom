@@ -36,7 +36,15 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('joinRoom')
   async handleJoinRoom(client: Socket, room: string) {
     try {
+      const rooms = client.rooms;
+      for (const room of rooms) {
+        if (room !== client.id) {
+          await client.leave(room);
+        }
+      }
+
       const clientInfo = this.clients.get(client.id);
+      await client.join(room);
 
       const eventData = {
         message: `${clientInfo.role === UserRole.MANAGER ? 'Менеджер' : 'Клиент'} присоединился к чату ${room}`,
@@ -45,9 +53,9 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
       this.server.to(room).emit(`${clientInfo.role}Joined`, eventData);
 
-      await client.join(room);
       const request = await this.chatService.getSupportRequest(room);
       client.emit('clientInfo', request.user);
+      client.emit('chatHistory', request.messages);
     } catch (error) {
       console.error('Ошибка при подключении к комнате:', error);
       client.emit('error', { message: 'Ошибка при присоединении к чату' });
@@ -82,7 +90,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         supportRequest: supportRequestId,
         sentAt: payload.sentAt
       });
-      this.server.to(supportRequestId).emit('messageSent', message);
+
+      if (client.rooms.has(supportRequestId)) {
+        this.server.to(supportRequestId).emit('messageSent', message);
+      } else {
+        console.warn(`Client ${client.id} tried to send message to room ${supportRequestId}`);
+      }
     } catch (error) {
       console.error('Ошибка при обработке сообщения:', error);
       client.emit('error', { message: 'Ошибка при обработке сообщения' });
