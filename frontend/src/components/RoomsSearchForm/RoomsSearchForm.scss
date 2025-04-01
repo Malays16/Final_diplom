@@ -1,0 +1,42 @@
+.rooms-search {
+  &-form {
+    background-color: #fff;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 10px 13px #1126920D;
+    border-radius: 8px;
+  }
+
+  &-input {
+    width: 100%;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 28px;
+    color: #212529;
+    background-color: #fff;
+  }
+
+  &-dates {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 16px;
+    position: relative;
+
+    input {
+      border: 1px solid #eee;
+      padding: 8px 16px;
+      width: 100%;
+      font-size: 16px;
+      font-family: inherit;
+      line-height: 28px;
+      color: #212529;
+      background-color: #fff;
+      border-radius: 4px;
+    }
+  }
+}

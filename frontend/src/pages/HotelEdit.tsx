@@ -43,13 +43,10 @@ const HotelEdit: React.FC = () => {
       Array.from(files).map(async file => {
         const formData = new FormData();
         formData.append('files', file);
-        const headers = authHeader();
+        const headers: any = authHeader();
         headers['Content-Type'] = 'multipart/form-data';
         const response = await axios.post(`${API_URL}/admin/hotels/upload`, formData, {
           headers
-          // headers: {
-          //   'Content-Type': 'multipart/form-data'
-          // }
         });
         return response.data.images;
       })

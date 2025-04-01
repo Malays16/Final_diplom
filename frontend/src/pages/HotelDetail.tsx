@@ -4,8 +4,13 @@ import { useParams } from 'react-router-dom';
 import { getHotel } from '@/services/hotels/hotelService';
 import HotelRoomsList from '@components/HotelRoomsList';
 import { Hotel, HotelId } from '@/types/hotel';
+import { AuthUser } from '@/types/user';
 
-const HotelDetail: React.FC = () => {
+interface HotelDetailProps {
+  user: AuthUser;
+}
+
+const HotelDetail: React.FC<HotelDetailProps> = ({ user }) => {
   const [hotel, setHotel] = useState<Hotel>({} as Hotel);
   const [loading, setLoading] = useState<boolean>(true);
   const { id } = useParams<{ id: HotelId }>();
@@ -30,8 +35,8 @@ const HotelDetail: React.FC = () => {
 
   return (
     <div className="page">
-      <HotelDetailInfo hotel={hotel} />
-      <HotelRoomsList hotelId={id || ''} />
+      <HotelDetailInfo hotel={hotel} user={user} />
+      <HotelRoomsList hotelId={id || ''} user={user} />
     </div>
   );
 };

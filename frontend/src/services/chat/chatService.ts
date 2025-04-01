@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { HOST } from '../apiConfig';
-import { CreateSupportRequestDto, SupportRequest } from '@/types/chat';
+import { CreateSupportRequestDto, ID, SupportRequest } from '@/types/chat';
 
 const apiClient = axios.create({
   baseURL: `${HOST}/chat`,
@@ -33,6 +33,23 @@ export const chatService = {
       return response.data;
     } catch (error) {
       throw new Error(`Error creating request: ${error}`);
+    }
+  },
+
+  getChatHistory: async (requestId: string): Promise<SupportRequest> => {
+    try {
+      const response = await apiClient.get(`${HOST}/chat/requests/${requestId}`);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error getting chat history: ${error}`);
+    }
+  },
+
+  closeRequest: async (requestId: ID): Promise<void> => {
+    try {
+      await apiClient.put(`${HOST}/chat/requests/${requestId}`);
+    } catch (error) {
+      throw new Error(`Error closing request: ${error}`);
     }
   }
 };

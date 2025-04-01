@@ -4,11 +4,11 @@ export interface User {
   id: ID;
   name: string;
   email: string;
-  role?: 'client' | 'employee';
+  role?: ChatRole;
 }
 
 export interface Message {
-  _id?: ID;
+  id?: ID;
   author: ID;
   text: string;
   sentAt: Date;
@@ -18,10 +18,10 @@ export interface Message {
 
 export interface SupportRequest {
   id: ID;
-  user: ID;
+  user: User;
   createdAt: Date;
   isActive: boolean;
-  messages: ID[];
+  messages: Message[];
 }
 
 export interface CreateSupportRequestDto {

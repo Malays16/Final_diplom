@@ -11,8 +11,8 @@ import { ID as ReservationId } from 'src/reservation/interfaces/reservation';
 export class ReservationApiManagerController {
   constructor(private readonly reservationService: ReservationService) {}
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(UserRole.MANAGER)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.MANAGER)
   @HttpCode(HttpStatus.OK)
   @Get('reservations/:userId')
   async getReservationsByUserId(@Param('userId') userId: UserId): Promise<ReservationResponse[]> {

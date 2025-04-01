@@ -11,3 +11,9 @@ export interface Reservation {
 export interface ReservationsListProps {
   reservations: Reservation[];
 }
+
+export interface CreateReservationDto {
+  hotelRoom: string;
+  startDate: Date;
+  endDate: Date;
+}

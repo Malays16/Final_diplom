@@ -1,4 +1,5 @@
 import { API_URL, STATIC_IMG } from '@/services/apiConfig';
+import authHeader from '@/services/auth/authHeader';
 import { addRoom, getHotelRoom, updateRoom } from '@/services/hotels/roomService';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -42,10 +43,10 @@ const HotelRoomEdit: React.FC = () => {
       Array.from(files).map(async file => {
         const formData = new FormData();
         formData.append('files', file);
+        const headers = authHeader();
+        headers['Content-Type'] = 'multipart/form-data';
         const response = await axios.post(`${API_URL}/admin/hotel-rooms/upload`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+          headers
         });
         return response.data.images;
       })

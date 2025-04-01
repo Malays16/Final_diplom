@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { HOST } from '@/services/apiConfig';
-import { Message, SupportRequest } from '@/types/chat';
+import { Message } from '@/types/chat';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthUser, UserRole } from '@/types/user';
-import axios from 'axios';
 import { formatDateTime } from '@/utils/dateUtils';
+import { chatService } from '@/services/chat/chatService';
 
 interface SupportChatProps {
   user: AuthUser;
@@ -22,6 +22,7 @@ const SupportChatPage: React.FC<SupportChatProps> = ({ user }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState<string>('');
   const [clientInfo, setClientInfo] = useState<ClientInfo | null>(null);
+  const [isActive, setIsActive] = useState<boolean>(false);
   const socketRef = useRef<Socket | null>(null);
   const isInitMount = useRef<boolean>(true);
   const messagesRef = useRef<HTMLDivElement>(null);
@@ -106,8 +107,8 @@ const SupportChatPage: React.FC<SupportChatProps> = ({ user }) => {
     const loadChatHistory = async () => {
       if (!requestId) return;
       try {
-        const response = await axios.get(`${HOST}/chat/requests/${requestId}`);
-        const supportRequest = response.data;
+        const supportRequest = await chatService.getChatHistory(requestId);
+        setIsActive(supportRequest.isActive);
         setMessages(supportRequest.messages || []);
         setClientInfo(supportRequest.user);
         scrollToLastMessage();
@@ -125,10 +126,10 @@ const SupportChatPage: React.FC<SupportChatProps> = ({ user }) => {
     return;
   }
 
-  const closeRequest = async () => {
+  const handleCloseRequest = async () => {
     if (!requestId) return;
     try {
-      await axios.put<SupportRequest>(`${HOST}/chat/requests/${requestId}`);
+      await chatService.closeRequest(requestId);
       navigate('/support-requests');
     } catch (error) {
       console.error('Error closing support request:', error);
@@ -140,15 +141,17 @@ const SupportChatPage: React.FC<SupportChatProps> = ({ user }) => {
       <div className="support-chat-page">
         <div className="support-chat-header">
           <h2 className="support-chat-title">Запрос #{requestId}</h2>
-          <button type="button" className="btn btn-cancel" onClick={closeRequest}>
-            Закрыть запрос
-          </button>
+          {isActive &&
+            <button type="button" className="btn btn-cancel" onClick={handleCloseRequest}>
+              Закрыть запрос
+            </button>
+          }
         </div>
         <div className="support-chat-container">
           <div className="support-chat-messages" ref={messagesRef}>
             {messages.map((msg, index) => (
               <div
-                key={`${msg._id}-${index}`}
+                key={`${msg.id}-${index}`}
                 className={`message ${msg.author === user.id ? 'message-manager' : 'message-client'}`}>
                 <div className="user-name">
                   {msg.author === user.id ? user.name : clientInfo?.name}
@@ -159,16 +162,18 @@ const SupportChatPage: React.FC<SupportChatProps> = ({ user }) => {
             ))}
           </div>
         </div >
-        <div className="support-chat-input">
-          <input
-            type="text"
-            value={message}
-            onChange={e => setMessage(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && handleSendMessage()}
-            placeholder="Введите сообщение..."
-          />
-          <button className="btn btn-success" onClick={handleSendMessage}>Отправить</button>
-        </div>
+        {isActive &&
+          <div className="support-chat-input">
+            <input
+              type="text"
+              value={message}
+              onChange={e => setMessage(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleSendMessage()}
+              placeholder="Введите сообщение..."
+            />
+            <button className="btn btn-success" onClick={handleSendMessage}>Отправить</button>
+          </div>
+        }
       </div>
     </div>
   );

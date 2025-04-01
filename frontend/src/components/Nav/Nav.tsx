@@ -4,9 +4,11 @@ import './Nav.scss';
 const Nav = () => {
   const navItems = [
     { label: 'Все гостиницы', link: '/hotels' },
-    { label: 'Поиск номера', link: '/' },
+    { label: 'Поиск номера', link: '/rooms' },
     { label: 'Добавить гостиницу', link: '/hotels/add' },
-    { label: 'Пользователи', link: '/users' }
+    { label: 'Пользователи', link: '/users' },
+    { label: 'Запросы в техподдержку', link: '/support-requests' },
+    { label: 'Создать пользователя', link: '/users/create' }
   ];
 
   return (

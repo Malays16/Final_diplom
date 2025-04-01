@@ -3,7 +3,6 @@ import './ClientChat.scss';
 import { HOST } from '@/services/apiConfig';
 import { io, Socket } from 'socket.io-client';
 import { Message } from '@/types/chat';
-import { getUserById } from '@/services/users/usersService';
 import { UserRole } from '@/types/user';
 import { formatDateTime } from '@/utils/dateUtils';
 import SupportLogo from '@/assets/images/support-logo.svg';
@@ -23,7 +22,6 @@ const ClientChat: React.FC<ClientChatProps> = ({ userId }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [supportRequestId, setSupportRequestId] = useState<string>('');
-  const [userName, setUserName] = useState<string>('');
   const [managerInfo, setManagerInfo] = useState<ManagerInfo | null>(null);
 
   const handleCreateRequest = useCallback(() => {
@@ -43,6 +41,7 @@ const ClientChat: React.FC<ClientChatProps> = ({ userId }) => {
         text: message,
         author: userId,
         sentAt: new Date(),
+        readAt: new Date(),
         supportRequest: supportRequestId
       };
       socket.emit('sendMessage', data);
@@ -52,14 +51,7 @@ const ClientChat: React.FC<ClientChatProps> = ({ userId }) => {
     }
   };
 
-  const getUserName = async (id: string) => {
-    const user = await getUserById(id);
-    setUserName(user.name);
-    return user;
-  };
-
   useEffect(() => {
-    getUserName(userId);
     const newSocket = io(HOST, {
       transports: ['websocket'],
       reconnection: true,
@@ -134,7 +126,7 @@ const ClientChat: React.FC<ClientChatProps> = ({ userId }) => {
               {messages.map(msg => (
                 <div
                   className={`chat-message ${msg.author === userId ? 'chat-message-client' : 'chat-message-manager'}`}
-                  key={msg._id}>
+                  key={msg.id}>
                   {msg.author !== userId &&
                     <div className="user-name">
                       {managerInfo?.name}

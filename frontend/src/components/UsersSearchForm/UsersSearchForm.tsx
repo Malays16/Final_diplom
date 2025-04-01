@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './UsersSearchForm.scss';
+import { useNavigate } from 'react-router-dom';
 
 type SearchFormProps = {
   onSearch: (query: string) => void;
@@ -7,8 +8,11 @@ type SearchFormProps = {
 
 const UsersSearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const navigate = useNavigate();
 
   const handleSearch = () => onSearch(searchQuery);
+
+  const createUser = () => navigate('/users/create');
 
   return (
     <div className="users-search">
@@ -22,9 +26,14 @@ const UsersSearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
           onChange={e => setSearchQuery(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handleSearch()}
         />
-        <button className="btn btn-primary" onClick={handleSearch}>
-          Искать
-        </button>
+        <div className="ctrl-btns">
+          <button className="btn btn-primary" onClick={handleSearch}>
+            Искать
+          </button>
+          <button className="btn btn-change" onClick={createUser}>
+            Создать нового пользователя
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -14,6 +14,9 @@ import ProtectedRoute from './services/auth/ProtectedRoute';
 import { UserRole, AuthUser } from './types/user';
 import ClientChat from '@/components/Chat/ClientChat';
 import { Nullable } from './types/common';
+import RoomsSearchPage from './pages/RoomsSearchPage';
+import RoomDetail from './pages/RoomDetail';
+import UserEdit from './pages/UserEdit';
 import { useEffect, useState } from 'react';
 
 function App() {
@@ -31,6 +34,7 @@ function App() {
 
   const isClientRole = authUser && role === UserRole.CLIENT;
   const isManagerRole = authUser && role === UserRole.MANAGER;
+  const isAdminRole = authUser && role === UserRole.ADMIN;
 
   return (
     <div className="site-container">
@@ -38,10 +42,17 @@ function App() {
       <main className="main">
         <Nav />
         <Routes>
-          <Route path="/" Component={AllHotels} />
-          <Route path="/hotels" Component={AllHotels} />
-          <Route path="/hotels/:id" Component={HotelDetail} />
-          <Route path="/hotels/add" element={<HotelEdit />} />
+          <Route path="/" element={<AllHotels />} />
+          <Route path="/hotels" element={<AllHotels />} />
+          <Route path="/hotels/:id" element={<HotelDetail user={authUser as AuthUser} />} />
+          <Route
+            path="/hotels/add"
+            element={
+              <ProtectedRoute userRole={UserRole.ADMIN}>
+                <HotelEdit />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/hotels/:id/edit"
             element={
@@ -66,8 +77,30 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/users" element={<UsersPage />} />
+
+          <Route path="/rooms" element={<RoomsSearchPage />} />
+          <Route path="/rooms/:id" element={<RoomDetail />} />
+
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute userRole={UserRole.MANAGER || UserRole.ADMIN}>
+                {(isManagerRole || isAdminRole) && <UsersPage />}
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/users/create" element={<UserEdit />} />
+          <Route
+            path="/users/edit/:id"
+            element={
+              <ProtectedRoute userRole={UserRole.MANAGER || UserRole.ADMIN}>
+                {(isManagerRole || isAdminRole) && <UserEdit />}
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="/reservations/user/:userId" element={<UserReservations />} />
+
           <Route
             path="/support-requests"
             element={

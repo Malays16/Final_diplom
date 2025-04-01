@@ -3,6 +3,23 @@ import axios from 'axios';
 import { HotelRoom, HotelRoomId, RoomDto } from '@/types/hotel-room';
 import authHeader from '../auth/authHeader';
 
+export const getRooms = async (limit: number, offset: number, hotel: string, checkIn: string, checkOut: string): Promise<HotelRoom[]> => {
+  try {
+    const response = await axios.get(`${API_URL}/common/hotel-rooms`, {
+      params: {
+        limit,
+        offset,
+        hotel,
+        checkIn,
+        checkOut
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed fetching rooms: ${error}`);
+  }
+};
+
 export const getHotelRoom = async (roomId: HotelRoomId): Promise<HotelRoom> => {
   try {
     const response = await axios.get(`${API_URL}/common/hotel-rooms/${roomId}`);

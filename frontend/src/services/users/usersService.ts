@@ -1,4 +1,4 @@
-import { User, UsersQueryParams } from '@/types/user';
+import { User, UserFormData, UsersQueryParams } from '@/types/user';
 import { API_URL } from '../apiConfig';
 import axios from 'axios';
 import authHeader from '../auth/authHeader';
@@ -29,5 +29,35 @@ export const getUserById = async (userId: string): Promise<User> => {
     return response.data;
   } catch (error) {
     throw new Error(`Failed fetching user: ${error}`);
+  }
+};
+
+export const createUser = async (user: UserFormData): Promise<User> => {
+  try {
+    const response = await axios.post(`${API_URL}/admin/users`, user);
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed creating user: ${error}`);
+  }
+};
+
+export const updateUser = async (userId: string, user: UserFormData): Promise<User> => {
+  try {
+    const response = await axios.put(`${API_URL}/admin/users/${userId}`, user, {
+      headers: authHeader()
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed updating user: ${error}`);
+  }
+}
+
+export const removeUser = async (userId: string): Promise<void> => {
+  try {
+    await axios.delete(`${API_URL}/admin/users/${userId}`, {
+      headers: authHeader()
+    });
+  } catch (error) {
+    throw new Error(`Failed removing user: ${error}`);
   }
 };

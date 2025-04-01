@@ -1,4 +1,4 @@
-import { HttpException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, HttpException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { SearchHotelRoomInterface } from './interfaces/hotel-room-api';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model, Types } from 'mongoose';
@@ -14,18 +14,29 @@ export class HotelRoomApiService {
     @InjectModel(Reservation.name) private readonly reservationModel: Model<ReservationDocument>
   ) {}
 
-  private async getReservedRoomIds(hotel: string, checkIn: Date, checkOut: Date): Promise<Types.ObjectId[]> {
+  private async getReservedRoomIds(
+    hotel: string | null | undefined,
+    checkIn: Date | undefined,
+    checkOut: Date | undefined
+  ): Promise<Types.ObjectId[]> {
     try {
-      const reservedRooms = await this.reservationModel
-        .find({
-          hotelId: hotel,
-          $or: [
-            { dateStart: { $lt: checkOut, $gte: checkIn } },
-            { dateEnd: { $gt: checkIn, $lte: checkOut } },
-            { dateStart: { $lte: checkIn }, dateEnd: { $gte: checkOut } }
-          ]
-        })
-        .select('roomId');
+      if (!checkIn || !checkOut) {
+        return [];
+      }
+
+      const query: any = {
+        $or: [
+          { dateStart: { $lt: checkOut, $gte: checkIn } },
+          { dateEnd: { $gt: checkIn, $lte: checkOut } },
+          { dateStart: { $lte: checkIn }, dateEnd: { $gte: checkOut } }
+        ]
+      };
+
+      if (hotel) {
+        query.hotelId = hotel;
+      }
+
+      const reservedRooms = await this.reservationModel.find(query).select('roomId');
 
       return Array.from(new Set(reservedRooms.map(reservation => reservation.roomId)));
     } catch (error) {
@@ -33,16 +44,27 @@ export class HotelRoomApiService {
     }
   }
 
-  async searchHotelRooms(limit: number, offset: number, hotel: string, checkIn: Date, checkOut: Date): Promise<SearchHotelRoomInterface[]> {
+  async searchHotelRooms(limit: number, offset: number, hotel?: string, checkIn?: Date, checkOut?: Date): Promise<SearchHotelRoomInterface[]> {
     try {
-      const reservedRoomIds = await this.getReservedRoomIds(hotel, checkIn, checkOut);
+      const query: any = {};
+      let reservedRoomIds: Types.ObjectId[] = [];
+      if (hotel) {
+        query.hotel = hotel;
+      }
 
-      const availableRooms = await this.hotelRoomModel
-        .find({ hotel, _id: { $nin: reservedRoomIds } })
-        .populate<{ hotel: HotelDocument }>('hotel')
-        .limit(limit)
-        .skip(offset)
-        .exec();
+      if (checkIn instanceof Date && checkOut instanceof Date) {
+        if (checkIn >= checkOut) {
+          throw new BadRequestException('Check out date must be greater than check in date');
+        }
+
+        reservedRoomIds = await this.getReservedRoomIds(hotel, checkIn, checkOut);
+
+        if (reservedRoomIds.length > 0) {
+          query._id = { $nin: reservedRoomIds };
+        }
+      }
+
+      const availableRooms = await this.hotelRoomModel.find(query).populate<{ hotel: HotelDocument }>('hotel').limit(limit).skip(offset).exec();
 
       return availableRooms.map(room => {
         return {

@@ -28,8 +28,6 @@ export class HotelApiController {
     };
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.ADMIN)
   @HttpCode(HttpStatus.OK)
   @Get('hotels')
   async getHotels(
@@ -48,8 +46,6 @@ export class HotelApiController {
     });
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.ADMIN)
   @HttpCode(HttpStatus.OK)
   @Get('hotels/:id')
   async getHotel(@Param('id') id: ID): Promise<HotelDtoResponse> {

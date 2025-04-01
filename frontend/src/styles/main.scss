@@ -263,6 +263,17 @@ h1 {
     line-height: 52px;
     color: #232d42;
     background-color: #fff;
+
+    &::placeholder {
+      color: #8a92a6;
+    }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px #fff inset !important;
+    }
   }
 
   textarea {
@@ -274,6 +285,21 @@ h1 {
     line-height: 28px;
     color: #212529;
     background-color: #fff;
+  }
+
+  select {
+    padding: 8px 16px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    height: 52px;
+    font-size: 16px;
+    line-height: 52px;
+    color: #232d42;
+    background-color: #fff;
+
+    option {
+      color: #232d42;
+    }
   }
 }
 
@@ -364,4 +390,13 @@ h1 {
   justify-content: center;
   align-items: center;
   padding: 50px 0;
+}
+
+.error {
+  color: #e15d5d;
+  font-size: 12px;
+}
+
+.required {
+  color: #e15d5d;
 }

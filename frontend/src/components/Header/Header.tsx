@@ -4,6 +4,8 @@ import './Header.scss';
 import { Nullable } from '@/types/common';
 import { AuthUser, User } from '@/types/user';
 import AuthModal from '@components/Auth/AuthModal';
+import NotAuthLogo from '@/assets/images/cat-svgrepo-com.svg';
+import Logo from '@/assets/images/hotel-logo.svg';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -51,14 +53,15 @@ const Header: React.FC = () => {
   return (
     <header className="header">
       <div className="logo" onClick={() => navigate('/')}>
-        Logo
+        <img src={Logo} className="logo-img" alt="Hotel Logo" />
+        <span>Hotel Booking</span>
       </div>
       <div className="header-auth">
         {isAuth ? (
           <>
-            <span className={isModalOpen ? 'active' : ''} onClick={toggleModal}>
-              {user?.name}
-            </span>
+            <div className={`profile ${isModalOpen ? 'active' : ''}`} onClick={toggleModal}>
+              {user?.name} (<span>{user?.role.toUpperCase()}</span>)
+            </div>
             <div className="header-avatar">
               <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="avatar" />
             </div>
@@ -68,6 +71,9 @@ const Header: React.FC = () => {
             <span className={`login ${isModalOpen ? 'active' : ''}`} onClick={toggleModal}>
               Войти
             </span>
+            <div className="header-avatar">
+              <img src={NotAuthLogo} alt="avatar" />
+            </div>
           </>
         )}
       </div>

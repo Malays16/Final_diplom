@@ -20,7 +20,7 @@
 
     th,
     td {
-      padding: 15px;
+      padding: 15px 10px;
       text-align: left;
       font-size: 16px;
       font-weight: 500;
@@ -42,10 +42,53 @@
 
     td {
       font-size: 14px;
+
+      &:nth-last-child(2) {
+        text-align: center;
+      }
+
+      &:last-child {
+        display: flex;
+        justify-content: center;
+      }
     }
 
     th {
       color: #8a92a6;
+    }
+
+    td,
+    th {
+      &:nth-last-child(2) {
+        padding: 5px;
+      }
+    }
+  }
+
+  &-item {
+    .users-item-edit {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #2e46ba;
+      cursor: pointer;
+      font-size: 22px;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    .users-item-delete {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px;
+      width: 20px;
+      height: 20px;
+      color: #e15d5d;
+      cursor: pointer;
     }
   }
 }

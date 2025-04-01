@@ -3,7 +3,7 @@ import UsersSearchForm from '@/components/UsersSearchForm';
 import UsersList from '@/components/UsersList';
 import Pagination from '@/components/Pagination';
 import { User } from '@/types/user';
-import { getUsers } from '@/services/users/usersService';
+import { getUsers, removeUser } from '@/services/users/usersService';
 
 const UsersPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -51,11 +51,23 @@ const UsersPage: React.FC = () => {
     setPage(1);
   };
 
+  const deleteUser = async (id: string) => {
+    if (!confirm(`Вы уверены, что хотите удалить пользователя ${id}?`)) return;
+
+    try {
+      await removeUser(id);
+      const updatedUsers = users.filter(user => user.id !== id);
+      setUsers(updatedUsers);
+    } catch (error) {
+      console.error('Error removing user: ', error);
+    }
+  };
+
   return (
     <div className="page">
       <div className="users-page">
         <UsersSearchForm onSearch={handleUsersSearch} />
-        {isLoading ? <div className="loading">Загрузка...</div> : <UsersList users={users} />}
+        {isLoading ? <div className="loading">Загрузка...</div> : <UsersList users={users} deleteUser={deleteUser} />}
       </div>
       {totalPages > 1 && (
         <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />

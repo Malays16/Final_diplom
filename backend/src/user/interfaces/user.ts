@@ -30,3 +30,12 @@ export enum UserRole {
   ADMIN = 'admin',
   MANAGER = 'manager'
 }
+
+export interface UserDto {
+  email: string;
+  password?: string;
+  passwordHash?: string;
+  name?: string;
+  contactPhone?: string;
+  role?: UserRole;
+}
