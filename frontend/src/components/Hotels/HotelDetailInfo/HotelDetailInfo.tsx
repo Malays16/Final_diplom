@@ -12,7 +12,6 @@ interface HotelDetailInfoProps {
 const HotelDetailInfo: React.FC<HotelDetailInfoProps> = ({ hotel, user }) => {
   const isAdmin = user?.role === UserRole.ADMIN;
 
-  console.log('auth user ', user);
   return (
     <div className="hotel-detail-info">
       <div className="hotel-detail-images">

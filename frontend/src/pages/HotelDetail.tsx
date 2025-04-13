@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import HotelDetailInfo from '@components/HotelDetailInfo';
+import HotelDetailInfo from '@components/Hotels/HotelDetailInfo';
 import { useParams } from 'react-router-dom';
 import { getHotel } from '@/services/hotels/hotelService';
-import HotelRoomsList from '@components/HotelRoomsList';
+import HotelRoomsList from '@components/Hotels/HotelRoomsList';
 import { Hotel, HotelId } from '@/types/hotel';
 import { AuthUser } from '@/types/user';
 

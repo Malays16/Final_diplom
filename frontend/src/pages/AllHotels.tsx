@@ -1,5 +1,5 @@
 import React from 'react';
-import HotelsSearch from '@components/HotelsSearch';
+import HotelsSearch from '@components/Hotels/HotelsSearch';
 
 const AllHotels: React.FC = () => {
   return (

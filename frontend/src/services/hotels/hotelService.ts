@@ -1,5 +1,5 @@
 import { API_URL } from '../apiConfig';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { Hotel, HotelDto, HotelId } from '@/types/hotel';
 import { HotelRoom, HotelRoomDto } from '@/types/hotel-room';
 import authHeader from '../auth/authHeader';
@@ -87,5 +87,25 @@ export const updateHotel = async (id: HotelId, data: HotelDto): Promise<Hotel> =
     return response.data;
   } catch (error) {
     throw new Error(`Failed updating hotel: ${error}`);
+  }
+};
+
+export const uploadFile = async (file: File, dir: string): Promise<string[]> => {
+  try {
+    const directory = dir === 'hotels' ? 'hotels' : 'hotel-rooms';
+    const formData = new FormData();
+    formData.append('files', file);
+
+    const config = {
+      headers: {
+        ...authHeader(),
+        'Content-Type': 'multipart/form-data'
+      }
+    };
+
+    const response: AxiosResponse<{ images: string[] }> = await axios.post(`${API_URL}/admin/${directory}/upload`, formData, config);
+    return response.data.images;
+  } catch (error) {
+    throw new Error(`Failed uploading file: ${error}`);
   }
 };

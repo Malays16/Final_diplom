@@ -15,8 +15,8 @@ const HotelRoomsList: React.FC<HotelRoomsListProps> = ({ hotelId, user }) => {
   const [hotelRooms, setHotelRooms] = useState<HotelRoom[]>([]);
   const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
-  const [checkIn] = useState<string>('2026-08-01');
-  const [checkOut] = useState<string>('2026-08-08');
+  const [checkIn] = useState<string>('');
+  const [checkOut] = useState<string>('');
   const limit = 5;
   const isAdmin = user?.role === UserRole.ADMIN;
 

@@ -1,8 +1,6 @@
-import { API_URL, STATIC_IMG } from '@/services/apiConfig';
-import authHeader from '@/services/auth/authHeader';
-import { addHotel, getHotel, updateHotel } from '@/services/hotels/hotelService';
-import axios from 'axios';
+import { addHotel, getHotel, updateHotel, uploadFile } from '@/services/hotels/hotelService';
 import React, { useEffect, useState } from 'react';
+import HotelImages from '@components/Hotels/HotelImages';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const HotelEdit: React.FC = () => {
@@ -38,20 +36,9 @@ const HotelEdit: React.FC = () => {
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
-    const files: FileList = event.target.files;
-    const uplodadedImages = await Promise.all(
-      Array.from(files).map(async file => {
-        const formData = new FormData();
-        formData.append('files', file);
-        const headers: any = authHeader();
-        headers['Content-Type'] = 'multipart/form-data';
-        const response = await axios.post(`${API_URL}/admin/hotels/upload`, formData, {
-          headers
-        });
-        return response.data.images;
-      })
-    );
-    setImages(images => [...images, ...uplodadedImages.flat()]);
+    const file: File = event.target.files[0];
+    const newImage = await uploadFile(file, 'hotels');
+    setImages(images => [...images, ...newImage.flat()]);
   };
 
   const handleImageRemove = (image: string) => {
@@ -79,24 +66,7 @@ const HotelEdit: React.FC = () => {
     <div className="page">
       <form className="edit-form" onSubmit={handleSubmit}>
         <h2 className="page-title">{pageTitle}</h2>
-        <div className="hotel-images">
-          {images.length > 0 && (
-            <div className="form-input">
-              <div className="images-list">
-                {images.map((image, index) => (
-                  <div className="image" key={index}>
-                    <div className="remove" onClick={() => handleImageRemove(image)}></div>
-                    <img src={`${STATIC_IMG}/hotels/${image}`} alt={`Image ${index}`} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-          <div className="form-input">
-            <label htmlFor="images-input" className="upload-label"></label>
-            <input type="file" id="images-input" multiple onChange={handleImageUpload} />
-          </div>
-        </div>
+        <HotelImages type="hotels" images={images} handleImageUpload={handleImageUpload} handleImageRemove={handleImageRemove} />
         <div className="form-input">
           <label htmlFor="hotel-title">Название отеля</label>
           <input

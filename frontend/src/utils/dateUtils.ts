@@ -6,7 +6,7 @@ export function formatDate(dateInput: Date): string {
   return `${day}.${month}.${year}`;
 }
 
-export function formatDateTime(dateString: string | Date) {
+export function formatDateTime(dateString: string | Date): string {
   return new Date(dateString).toLocaleString('ru-RU', {
     day: '2-digit',
     month: '2-digit',

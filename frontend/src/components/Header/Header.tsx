@@ -48,6 +48,7 @@ const Header: React.FC = () => {
     localStorage.removeItem('user');
     setIsAuth(false);
     setUser(null);
+    navigate('/');
   };
 
   return (

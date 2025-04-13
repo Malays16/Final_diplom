@@ -1,9 +1,9 @@
 import { getHotels } from '@/services/hotels/hotelService';
 import React, { useState, useEffect, useCallback } from 'react';
-import HotelsList from '@components/HotelsList';
+import HotelsList from '@components/Hotels/HotelsList';
 import './HotelsSearch.scss';
 import { Hotel } from '@/types/hotel';
-import Pagination from '../Pagination';
+import Pagination from '@components/Pagination';
 
 const HotelsSearch: React.FC = () => {
   const [hotelName, setHotelName] = useState<string>('');
