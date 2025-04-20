@@ -5,6 +5,7 @@ import { HotelId } from '@/types/hotel';
 import { HotelRoom } from '@/types/hotel-room';
 import { STATIC_IMG } from '@/services/apiConfig';
 import { AuthUser, UserRole } from '@/types/user';
+import NoImage from '@/assets/images/no-image.jpg';
 
 interface HotelRoomsListProps {
   hotelId: HotelId;
@@ -43,12 +44,17 @@ const HotelRoomsList: React.FC<HotelRoomsListProps> = ({ hotelId, user }) => {
       {hotelRooms.map((room: HotelRoom) => (
         <div key={room.id} className="hotel-room">
           <div className="hotel-room-images">
-            {room.images.length &&
+            {room.images.length ? (
               room.images.map((image, index) => (
                 <div className="hotel-room-img" key={index}>
                   <img src={`${STATIC_IMG}/hotel-rooms/${image}`} alt={room.title} />
                 </div>
-              ))}
+              ))
+            ) : (
+              <div className="hotel-room-img">
+                <img src={NoImage} alt={room.title} />
+              </div>
+            )}
           </div>
           <h3 className="hotel-room-title">{room.title}</h3>
           <div className="hotel-room-description">{room.description}</div>

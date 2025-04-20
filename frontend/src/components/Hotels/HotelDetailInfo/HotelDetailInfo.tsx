@@ -3,6 +3,7 @@ import './HotelDetailInfo.scss';
 import { Hotel } from '@/types/hotel';
 import { STATIC_IMG } from '@/services/apiConfig';
 import { AuthUser, UserRole } from '@/types/user';
+import NoImage from '@/assets/images/no-image.jpg';
 
 interface HotelDetailInfoProps {
   hotel: Hotel;
@@ -15,12 +16,17 @@ const HotelDetailInfo: React.FC<HotelDetailInfoProps> = ({ hotel, user }) => {
   return (
     <div className="hotel-detail-info">
       <div className="hotel-detail-images">
-        {hotel.images &&
+        {hotel?.images.length ? (
           hotel.images.map((image, index) => (
             <div className="hotel-detail-img" key={index}>
               <img src={`${STATIC_IMG}/hotels/${image}`} alt={hotel.title} />
             </div>
-          ))}
+          ))
+        ) : (
+          <div className="hotel-detail-img">
+            <img src={NoImage} alt={hotel.title} />
+          </div>
+        )}
       </div>
       <h2 className="hotel-detail-title">{hotel.title}</h2>
       <div className="hotel-detail-description">{hotel.description}</div>

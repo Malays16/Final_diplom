@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './HotelsList.scss';
 import { Hotel } from '@/types/hotel';
 import { STATIC_IMG } from '@/services/apiConfig';
+import NoImage from '@/assets/images/no-image.jpg';
 
 const HotelsList: React.FC<{ hotels: Hotel[] }> = ({ hotels }) => {
   const issetHotels = hotels && hotels.length > 0;
@@ -12,10 +13,11 @@ const HotelsList: React.FC<{ hotels: Hotel[] }> = ({ hotels }) => {
         hotels.map((hotel: Hotel) => (
           <div key={hotel.id} className="hotel-item">
             <div className="hotel-img">
-              <img
-                src={hotel.images.length ? `${STATIC_IMG}/hotels/${hotel.images[0]}` : ''}
-                alt={hotel.title}
-              />
+              {hotel?.images.length ? (
+                <img src={`${STATIC_IMG}/hotels/${hotel.images[0]}`} alt={hotel.title} />
+              ) : (
+                <img src={NoImage} alt={hotel.title} />
+              )}
             </div>
             <div className="hotel-info">
               <h2 className="hotel-title">{hotel.title}</h2>
